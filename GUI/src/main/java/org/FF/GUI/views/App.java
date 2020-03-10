@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JLayeredPane;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 
 public class App {
 
@@ -38,17 +41,24 @@ public class App {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(50, 50, 810, 460);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JLayeredPane layeredPane = new JLayeredPane();
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 434, Short.MAX_VALUE)
+				.addComponent(layeredPane, GroupLayout.DEFAULT_SIZE, 796, Short.MAX_VALUE)
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 261, Short.MAX_VALUE)
+				.addComponent(layeredPane, GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
 		);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(App.class.getResource("/org/FF/GUI/resources/Mockup1GUI.jpg")));
+		lblNewLabel.setBounds(0, 0, 796, 423);
+		layeredPane.add(lblNewLabel);
 		frame.getContentPane().setLayout(groupLayout);
 	}
 }
