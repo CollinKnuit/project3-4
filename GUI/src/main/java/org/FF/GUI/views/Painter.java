@@ -8,7 +8,12 @@ public class Painter {
 	Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
 	JLayeredPane p = new JLayeredPane();
 	
-	Painter(String img){ 
+	Painter(String img){
+		/* instantiate the JFrame, the background image
+		 * set the boundries for every component in the frame including the frame itself.
+		 * add the label to the pane and the pane to the frame.
+		 * and set the behavior for the frame.
+		 */
 		this.f = new JFrame();
 		ImageIcon bgIcon = new ImageIcon("C:\\Users\\frank\\OneDrive\\Afbeeldingen\\" + img + ".png");
 		JLabel l = new JLabel("", bgIcon, SwingConstants.CENTER);
@@ -24,6 +29,9 @@ public class Painter {
 	}
 	
 	public void switchPane(String img) {
+		/* instantiate the new pane, background image and label
+		 * remove the old pane and add the new pane.
+		 */
 		JLayeredPane p2 = new JLayeredPane();
 		ImageIcon bgIcon = new ImageIcon("C:\\Users\\frank\\OneDrive\\Afbeeldingen\\" + img + ".png");
 		JLabel l = new JLabel("", bgIcon, SwingConstants.CENTER);
