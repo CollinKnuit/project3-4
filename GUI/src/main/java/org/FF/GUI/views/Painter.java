@@ -51,7 +51,7 @@ public class Painter {
 		 * remove the old pane and add the new pane. 
 		 */
 		JLayeredPane p2 = new JLayeredPane();
-		ImageIcon bgIcon = new ImageIcon("C:\\Users\\frank\\OneDrive\\Afbeeldingen\\" + img + ".png");
+		ImageIcon bgIcon = new ImageIcon(this.getClass().getResource("/resources/" + img + ".png"));
 		JLabel l = new JLabel("", bgIcon, SwingConstants.CENTER);
 		p2.setBounds(0, 0, this.screensize.width, this.screensize.height);
 		l.setBounds(0, 0, this.screensize.width, this.screensize.height);
