@@ -4,9 +4,9 @@ import javax.swing.*;
 
 public class Painter {
 	
-	JFrame f;
-	Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
-	JLayeredPane p = new JLayeredPane();
+	private JFrame f;
+	private Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
+	private JLayeredPane p = new JLayeredPane();
 	
 	Painter(String img){ 
 		/* instantiate the JFrame, the background image 
@@ -16,7 +16,7 @@ public class Painter {
 		 * and set the behavior for the frame. 
 		 */ 
 		this.f = new JFrame();
-		ImageIcon bgIcon = new ImageIcon("C:\\Users\\frank\\OneDrive\\Afbeeldingen\\" + img + ".png");
+		ImageIcon bgIcon = new ImageIcon(this.getClass().getResource("/resources/" + img + ".png"));
 		JLabel l = new JLabel("", bgIcon, SwingConstants.CENTER);
 		this.f.setBounds(0, 0, this.screensize.width, this.screensize.height);
 		this.p.setBounds(0, 0, this.screensize.width, this.screensize.height);
