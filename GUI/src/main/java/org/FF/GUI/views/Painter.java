@@ -41,7 +41,7 @@ public class Painter {
 		this.f.add(p);
 		this.f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.f.getContentPane().setLayout(null);
-		this.f.setUndecorated(false);
+		this.f.setUndecorated(true);
 		this.f.setVisible(true);
 	}
 	
