@@ -8,50 +8,45 @@ import java.util.concurrent.ArrayBlockingQueue;
 import com.fazecast.jSerialComm.SerialPort;
 
 
-public class serialConnection {
+public class SerialConnection {
 	private SerialPort serialPort;
 	private ArrayBlockingQueue<String> waitingQueue = new ArrayBlockingQueue<String>(20);
 	private Thread portListener;
 	private volatile boolean exit = false;
 
-	public serialConnection(String serialPort, int boud) {
+	public SerialConnection(String serialPort, int boud) {
 		this.setSerialPort(serialPort, boud);
 	}
 
-	public serialConnection() {
+	public SerialConnection() {
 	}
 
-	public String[] getAllPortNames() {
-		SerialPort[] ports = SerialPort.getCommPorts();
-		if (ports.length == 0) {
-			System.out.println("No serial ports available!");
-			return null;
-		}
 
-		String[] result = new String[ports.length];
-		for (int i = 0; i < ports.length; i++) {
-			result[i] = ports[i].getSystemPortName();
-		}
-
-		return result;
-	}
-
+	/**
+ 	* Opens the port
+ 	* @return
+ 	*/
 	public boolean openPort() {
 		if (serialPort == null) {
 			throw new NullPointerException();
 		}
-
 		return serialPort.openPort();
-
 	}
 
+	/**
+	 * 
+	 */
 	public void closePort() {
 		if (serialPort != null) {
-			removeReaddPortListener();
+			removePortListener();
 			serialPort.closePort();
 		}
 	}
 
+	/**
+	 * adds a portlistner
+	 * @throws NullPointerException
+	 */
 	public void addPortListener() throws NullPointerException {
 		if( portListener == null) {
 			serialPortListener();
@@ -59,8 +54,8 @@ public class serialConnection {
 		}
 		return;
 	}
-	
-	public void removeReaddPortListener() {
+
+	public void removePortListener() {
 		if(exit) return;
 		try {
 			exit = true;
@@ -72,10 +67,18 @@ public class serialConnection {
 		}
 	}
 
+	/**
+	 * Sends data trough the comPort
+	 * @param buffer
+	 * @throws NullPointerException
+	 */
 	public void sendData(String buffer) throws NullPointerException {
 		serialPort.writeBytes(buffer.getBytes(), buffer.length());
 	}
 
+	/**
+	 * sets up a serialPortListener and puts it in the queue
+	 */
 	private void serialPortListener() {
 		if(portListener != null) return;
 		exit = false;
@@ -88,11 +91,14 @@ public class serialConnection {
 					if (bytesAvailable <= 0) {
 						continue;
 					}
-					var newData = new byte[serialPort.bytesAvailable()];
-					if (newData.length == serialPort.readBytes(newData, newData.length)) {
-						waitingQueue.offer((new String(newData)));
+					synchronized (waitingQueue) {
+						var newData = new byte[serialPort.bytesAvailable()];
+						if (newData.length == serialPort.readBytes(newData, newData.length)) {
+							waitingQueue.offer((new String(newData)));
 
+						}
 					}
+					
 				}
 
 			}
@@ -100,6 +106,11 @@ public class serialConnection {
 
 	}
 
+	/**
+	 * Sets the serialPort settings
+	 * @param serialPortToUse
+	 * @param boudrate
+	 */
 	public void setSerialPort(String serialPortToUse, int boud) {
 		this.serialPort = this.serialPort == null ? SerialPort.getCommPort(serialPortToUse) : this.serialPort;
 		serialPort.setComPortParameters(boud, 
@@ -109,10 +120,17 @@ public class serialConnection {
 		serialPort.setFlowControl(SerialPort.FLOW_CONTROL_DISABLED);
 	}
 
+	/**
+	 * gets all info thats in the queue
+	 * @return
+	 */
 	public List<String> getWaitingQueue() {
-		List<String> c = new ArrayList<String>();;
-		waitingQueue.drainTo(c);
-		return c;
+		synchronized (waitingQueue) {
+			ArrayList<String> c = new ArrayList<String>();;
+			waitingQueue.drainTo(c);
+			return c;
+		}
 	}
+
 
 }
