@@ -27,7 +27,7 @@ public class Painter {
 		this.f.setUndecorated(true);
 		this.f.setVisible(true);
 		
-		switchPane(ImgBackgrounds.FS1_1);
+		switchPane(ImgBackgrounds.FH1_1);
 	}
 		
 	
