@@ -75,6 +75,21 @@ public class SerialConnection {
 	public void sendData(String buffer) throws NullPointerException {
 		serialPort.writeBytes(buffer.getBytes(), buffer.length());
 	}
+	
+	public synchronized String readPort() {
+		var bytesAvailable = serialPort.bytesAvailable();
+
+		if (bytesAvailable <= 0) {
+			return null;
+		}
+		
+		var newData = new byte[serialPort.bytesAvailable()];
+		if (newData.length == serialPort.readBytes(newData, newData.length)) {
+		return new String(newData);
+
+		}
+		return null;
+	}
 
 	/**
 	 * sets up a serialPortListener and puts it in the queue

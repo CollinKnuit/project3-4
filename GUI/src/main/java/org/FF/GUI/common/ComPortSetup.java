@@ -18,6 +18,7 @@ public class ComPortSetup{
 	 * The first index is the keypad
 	 * The second index is the rfid
 	 * The third index is the dispenser
+	 * The fourth index is the bonprinter
 	 * @return an array with all comports
 	 *
 	 */
@@ -81,7 +82,7 @@ public class ComPortSetup{
 		serial = setup(9600, "Do you want to skip setup for the dispenser(y/n)");
 		
 		if (serial != null) {
-			serial.openPort();
+			serial.openPort(); 
 			serialPorts.add(serial);
 			
 		}else {
@@ -89,6 +90,17 @@ public class ComPortSetup{
 		}
 		
 	
+		serial = setup(9600, "Do you want to skip setup for the bonPrinter(y/n)");
+		
+		if (serial != null) {
+			serial.openPort();
+			serialPorts.add(serial);
+			
+		}else {
+			serialPorts.add(null);
+		}
+		
+		
 		return serialPorts;
 		
 	}
