@@ -42,7 +42,7 @@ public class Painter {
 		timer.stop();
 		
 		JLayeredPane p2 = new JLayeredPane();
-		ImageIcon bgIcon = new ImageIcon(this.getClass().getResource("/resources/" + "FH1_1" + ".png"));
+		ImageIcon bgIcon = new ImageIcon(this.getClass().getResource("/resources/" + img + ".png"));
 		JLabel imageLabel = new JLabel("", bgIcon, SwingConstants.CENTER);
 		JTextField listenerObject = new JTextField();
 		
