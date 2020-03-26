@@ -85,7 +85,6 @@ public class SerialConnection {
 		
 		var newData = new byte[serialPort.bytesAvailable()];
 		if (newData.length == serialPort.readBytes(newData, newData.length)) {
-			
 		return new String(newData);
 
 		}
