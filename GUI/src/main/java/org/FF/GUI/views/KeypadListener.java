@@ -14,6 +14,11 @@ public class KeypadListener implements ActionListener{
 	private Painter painter;
 	private SerialConnection serialConnection;
 	
+	/**
+	 * 
+	 * @param painter {@code Painter}
+	 * @param serialConnection {@code serialConnection}
+	 */
 	public KeypadListener(Painter painter, SerialConnection serialConnection) {
 		this.painter = painter;
 		this.serialConnection = serialConnection;
@@ -53,6 +58,14 @@ public class KeypadListener implements ActionListener{
 		}
 	}
 	
+	
+	/**
+	 * Sets the img to change to
+	 * @param imgSelectorA 	is button A {@code ImgBackgrounds}
+	 * @param imgSelctorB	is button B	{@code ImgBackgrounds}
+	 * @param imgSelectorC	is button C {@code ImgBackgrounds}
+	 * @param imgSelectorD	is button D	{@code ImgBackgrounds}
+	 */	
 	public synchronized void setImgSelectors(ImgBackgrounds imgSelectorA, ImgBackgrounds imgSelctorB, ImgBackgrounds imgSelectorC, ImgBackgrounds imgSelectorD) {
 		this.imgSelectorA = imgSelectorA;
 		this.imgSelectorB = imgSelctorB;

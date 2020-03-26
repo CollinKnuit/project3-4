@@ -15,7 +15,10 @@ public class Painter {
 	private Timer timer;
 	private KeypadListener keypadSwitchScreenListener;
 		
-	
+	/**
+	 * Sets up the begin frame and the keypadListener
+	 * @param serialConnection {@code SerialConnection}
+	 */
 	public Painter(SerialConnection serialConnection) {
 		this.keypadSwitchScreenListener = new KeypadListener(this, serialConnection); 
 		this.timer = new Timer(10, keypadSwitchScreenListener);
@@ -26,6 +29,7 @@ public class Painter {
 		this.f.getContentPane().setLayout(null);
 		this.f.setUndecorated(true);
 		this.f.setVisible(true);
+		this.f.setAlwaysOnTop (true);
 		
 		switchPane(ImgBackgrounds.FH1_1);
 	}
@@ -38,7 +42,7 @@ public class Painter {
 	 * and set the behavior for the frame.
 	 * @param img {@code ImgBackgrounds}
 	 */
-	public void switchPane(ImgBackgrounds img) {
+	public synchronized void switchPane(ImgBackgrounds img) {
 		timer.stop();
 		
 		JLayeredPane p2 = new JLayeredPane();
@@ -90,7 +94,7 @@ public class Painter {
 		 	case FH1_1:
 			 
 		 		
-				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FB1_1, ImgBackgrounds.FB1_1, ImgBackgrounds.FB1_1, ImgBackgrounds.FB1_1);
+				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FV1_1, ImgBackgrounds.FB1_1, ImgBackgrounds.FB1_1, ImgBackgrounds.FB1_1);
 
 			    break;
 		 	case FP_1:
@@ -103,9 +107,9 @@ public class Painter {
 		
 		this.f.remove(p);
 		this.p = p2;
+
 		this.f.add(p);
 		f.repaint();
-		p.repaint();
 		timer.start();
 	}
 	
