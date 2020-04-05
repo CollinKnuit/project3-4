@@ -9,9 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.JPasswordField;
 import javax.swing.Timer;
 
-import org.FF.GUI.common.SerialConnection.ComPortSetup;
-import org.FF.GUI.common.SerialConnection.SerialConnection;
-
 import java.awt.BorderLayout;
 
 public class TestApp {

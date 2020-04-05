@@ -4,7 +4,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import org.FF.GUI.common.SerialConnection.SerialConnection;  
+import org.FF.GUI.common.SerialConnection;  
 
 public class Painter {
 	

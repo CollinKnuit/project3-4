@@ -1,4 +1,4 @@
-package org.FF.GUI.common.SerialConnection;
+package org.FF.GUI.common;
 
 import java.util.ArrayList;
 import java.util.List;
