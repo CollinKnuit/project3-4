@@ -3,7 +3,7 @@ package org.FF.GUI.views;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import org.FF.GUI.common.SerialConnection;
+import org.FF.GUI.common.SerialConnection.SerialConnection;
 
 public class KeypadListener implements ActionListener{
 	
