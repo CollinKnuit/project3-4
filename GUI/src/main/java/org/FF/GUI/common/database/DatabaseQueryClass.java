@@ -8,7 +8,6 @@ public class DatabaseQueryClass {
 	
 		private ConnectionClass connection = new ConnectionClass();
 		
-		
 		/**
 		 * 
 		 */
@@ -17,7 +16,6 @@ public class DatabaseQueryClass {
 			while(!connection.closeConnection());
 			
 		}
-		
 		
 		/**
 		 * 
@@ -57,7 +55,6 @@ public class DatabaseQueryClass {
 			}
 			return Password.checkPassword(plainPassword, stored_hash);
 		}
-		
 		
 		/**
 		 * 
@@ -99,7 +96,6 @@ public class DatabaseQueryClass {
 			}
 			return acount;
 		}
-		
 		
 		/**
 		 * 
@@ -161,7 +157,6 @@ public class DatabaseQueryClass {
 			}
 		}
 		
-		
 		/**
 		 * 
 		 * @param rfid
@@ -198,6 +193,8 @@ public class DatabaseQueryClass {
 		        
 			}
 			return acountID;
+			
+		  
 		}
 		
 		
