@@ -13,7 +13,8 @@ public class ConnectionClass {
 
 	/**
 	 * 
-	 * @return
+	 * @return {@code Connection} with the FLFL database
+	 * or if its already connection return that
 	 */
 	public Connection getConnection() {
 		if (conn != null)
@@ -31,7 +32,7 @@ public class ConnectionClass {
 
 	/**
 	 * 
-	 * @return
+	 * @return {@code Boolean} if its closed return true else false
 	 */
 	public boolean closeConnection() {
 		if (conn == null)

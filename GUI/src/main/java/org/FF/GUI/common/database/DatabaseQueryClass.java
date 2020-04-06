@@ -21,7 +21,8 @@ public class DatabaseQueryClass {
 		 * 
 		 * @param acountId
 		 * @param plainPassword
-		 * @return
+		 * @return {@code boolean} if the plaintext password 
+		 * is hased the same return true
 		 * @throws SQLException
 		 */
 		public boolean checkPassword(int acountId, String plainPassword) throws SQLException {
@@ -59,7 +60,7 @@ public class DatabaseQueryClass {
 		/**
 		 * 
 		 * @param acountId
-		 * @return
+		 * @return {@code Acount}
 		 * @throws SQLException
 		 */
 		public Acount getAcountInfo(int acountId) throws SQLException {
@@ -98,7 +99,7 @@ public class DatabaseQueryClass {
 		}
 		
 		/**
-		 * 
+		 * Withdraws money from a action
 		 * @param acountId
 		 * @param money
 		 * @throws SQLException
@@ -160,7 +161,7 @@ public class DatabaseQueryClass {
 		/**
 		 * 
 		 * @param rfid
-		 * @return
+		 * @return AcountID If its -1 it could not be found
 		 * @throws SQLException
 		 */
 		public int checkRfid(String rfid) throws SQLException {

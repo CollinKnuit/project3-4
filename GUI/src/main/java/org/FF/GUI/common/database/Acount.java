@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 
 public class Acount {
 
-	private int AcountID;
-	private BigDecimal Balance;
-	private String RfidNumber;
+	private int AcountID = 0;
+	private BigDecimal Balance  = new BigDecimal(100); ;
+	private String RfidNumber = "1111112111111";
 	
 	
 	public int getAcountID() {
