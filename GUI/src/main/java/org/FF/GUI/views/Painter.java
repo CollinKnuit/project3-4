@@ -4,7 +4,8 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import org.FF.GUI.common.SerialConnection;  
+import org.FF.GUI.common.SerialConnection.SerialConnection;
+import org.FF.GUI.common.database.Acount;  
 
 public class Painter {
 	
@@ -14,6 +15,7 @@ public class Painter {
 	private JTextField saldo;
 	private Timer timer;
 	private KeypadListener keypadSwitchScreenListener;
+	private Acount acount = new Acount();
 		
 	/**
 	 * Sets up the begin frame and the keypadListener
@@ -75,19 +77,22 @@ public class Painter {
 		 		break;
 		 	case FS1_1:
 		 		saldo = new JTextField();
+		 		saldo.setText(acount.getBalance().toString());
 				saldo.setBounds(690, 470, 350, 60);
 				saldo.setColumns(10);
+				
 				saldo.setEditable(false);
-				this.p.add(saldo);
+				p2.add(saldo, JLayeredPane.POPUP_LAYER);
 				
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FV1_1, ImgBackgrounds.FV1_1, ImgBackgrounds.FV1_1, ImgBackgrounds.FV1_1);
 			    break;
 		 	case FV1_1:
 		 		saldo = new JTextField();
+		 		saldo.setText(acount.getBalance().toString());
 				saldo.setBounds(740, 460, 350, 60);
 				saldo.setColumns(10);
 				saldo.setEditable(false);
-				this.p.add(saldo);
+				p2.add(saldo, JLayeredPane.POPUP_LAYER);
 				
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FS1_1, ImgBackgrounds.FS1_1, ImgBackgrounds.FS1_1, ImgBackgrounds.FS1_1);
 			    break;
@@ -112,6 +117,8 @@ public class Painter {
 		f.repaint();
 		timer.start();
 	}
+
+
 	
 
 	
