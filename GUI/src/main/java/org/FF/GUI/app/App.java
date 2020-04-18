@@ -31,9 +31,10 @@ public class App {
         EventQueue.invokeLater(new Runnable() {
     		public void run() {
     			try {
-    				painter = new Painter(serialConnection.get(0));
+    				painter = new Painter(serialConnection);
     			} catch (Exception e) {
     				e.printStackTrace();
+					
     			}
     		}
     	});

@@ -5,6 +5,7 @@ public enum ImgBackgrounds {
 	FB1_1,
 	FP1_1, 
 	FS1_1, 
-	FV1_1, 
-	FP_1;
+	FV1_1,
+	FW1_1,
+	FL1_1
 }
