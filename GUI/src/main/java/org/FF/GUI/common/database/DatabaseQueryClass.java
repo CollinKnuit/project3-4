@@ -3,6 +3,7 @@ package org.FF.GUI.common.database;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class DatabaseQueryClass {
 	
@@ -25,14 +26,18 @@ public class DatabaseQueryClass {
 		 * is hased the same return true
 		 * @throws SQLException
 		 */
-		public boolean checkPassword(int acountId, String plainPassword) throws SQLException {
+		public HashMap<Boolean, Integer> checkPassword(int acountId, String plainPassword) throws SQLException {
 			var conn = connection.getConnection();
 			
-			String query 	= 	"SELECT Password "
+			String query 	= 	"SELECT Password,  Password_Atempt_Wrong "
 				 			+	"FROM acount "
-				 			+  	"WHERE (AcountID = ?);";
+				 			+  	"WHERE (AcountID = ?) "
+				 			+   "AND Password_Atempt_Wrong < 3;";
+			
+			
 			
 			String stored_hash = "";
+			int Password_Atempt_Wrong = -1;
 			PreparedStatement preparedStmt = null;
 			
 			try {
@@ -43,6 +48,7 @@ public class DatabaseQueryClass {
 				
 				while (resultSet.next()) {
 					stored_hash = resultSet.getString(1);	
+					Password_Atempt_Wrong = resultSet.getInt(2);
 				}
 				
 			} catch (SQLException e) {
@@ -54,7 +60,63 @@ public class DatabaseQueryClass {
 		        if(preparedStmt != null )preparedStmt.close();
 		        
 			}
-			return Password.checkPassword(plainPassword, stored_hash);
+			
+			boolean a = false;
+			
+			if(!Password.checkPassword(plainPassword, stored_hash)) {
+				changeLoginNumber(acountId);
+				 a = false;
+			} else {
+				a = true;
+			}
+			
+			HashMap<Boolean, Integer> map = new HashMap<Boolean, Integer>();
+			
+			map.put(a,Password_Atempt_Wrong);
+
+			
+			return map ;
+		}
+		
+		
+		
+		private void changeLoginNumber(int acountID) throws SQLException {
+			var conn = connection.getConnection();
+			
+			String query 	= 	"UPDATE acount "
+				 			+	"SET Password_Atempt_Wrong = Password_Atempt_Wrong + 1 "
+				 			+  	"WHERE AcountID = ?; ";
+			
+
+			
+			PreparedStatement preparedStmt = null;
+			
+			try {
+				conn.setAutoCommit(false);
+				preparedStmt = conn.prepareStatement(query);
+				preparedStmt.setInt(1, acountID);
+				preparedStmt.executeUpdate();
+				
+				conn.commit();
+				conn.setAutoCommit(true);
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+				try{
+					if(conn!=null) conn.rollback();
+	
+				} catch(SQLException se2){
+					se2.printStackTrace();
+				}
+			
+			} finally {
+				
+			        if(preparedStmt != null )preparedStmt.close();
+			        conn.setAutoCommit(true);
+			        
+			}
 		}
 		
 		/**
@@ -67,14 +129,16 @@ public class DatabaseQueryClass {
 		
 			var conn = connection.getConnection();
 			
-			String query 	= 	"SELECT AcountID, Balance, RfidNumber "
+			String query 	= 	"SELECT `AcountID`, `Balance`, `RfidNumber`, Password_Atempt_Wrong  "
 				 			+	"FROM acount "
-				 			+  	"WHERE (AcountID = ?);";
+				 			+  	"WHERE (`AcountID` = ?) "
+				 			+   "AND `Password_Atempt_Wrong` < 3;";
 			
 			Acount acount = new  Acount();
 			PreparedStatement preparedStmt = null;
 			
 			try {
+
 				preparedStmt = conn.prepareStatement(query);
 				preparedStmt.setInt(1, acountId);
 				
@@ -84,7 +148,11 @@ public class DatabaseQueryClass {
 					acount.setAcountID(resultSet.getInt(1));	
 					acount.setBalance(resultSet.getBigDecimal(2));	
 					acount.setRfidNumber(resultSet.getString(3));
+					acount.setPassword_Atempt_Wrong(resultSet.getInt(4));
+					
 				}
+				
+				setPassword_Atempt_WrongCorrect(acountId);
 				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -171,14 +239,15 @@ public class DatabaseQueryClass {
 			PreparedStatement preparedStmt = null;
 			int acountID = -1;
 			String query =  "SELECT AcountID " + 
-							"FROM acount " + 
-							"WHERE (RfidNumber = ?);";
+							"FROM acount " +  
+							"WHERE (RfidNumber = ?)" + 
+							";";
 			
 			try {
 				preparedStmt = conn.prepareStatement(query);
 				preparedStmt.setString(1, rfid);
 				
-				ResultSet resultSet =	preparedStmt.executeQuery();
+				ResultSet resultSet = preparedStmt.executeQuery();
 				
 				while (resultSet.next()) {
 					acountID = resultSet.getInt(1);	
@@ -194,9 +263,54 @@ public class DatabaseQueryClass {
 		        
 			}
 			return acountID;
-			
-		  
 		}
 		
+		
+		/**
+		 * 
+		 * @param acountId
+		 * @throws SQLException
+		 */
+		private void setPassword_Atempt_WrongCorrect(int acountId) throws SQLException {
+			
+			var conn = connection.getConnection();
+			
+			String query 	= 	"UPDATE acount  "
+						 	+	"SET Password_Atempt_Wrong = 0  "
+						 	+   "WHERE (AcountID = ?);";
+			
+			
+			PreparedStatement preparedStmt = null;
+			
+			try {
+				
+				conn.setAutoCommit(false);
+				
+				preparedStmt = conn.prepareStatement(query);
+				preparedStmt.setInt(1, acountId);
+				preparedStmt.executeUpdate();
+				
+				conn.commit();
+				conn.setAutoCommit(true);
+				
+			
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+				try{
+					if(conn!=null) conn.rollback();
+	
+				} catch(SQLException se2){
+					se2.printStackTrace();
+				}
+			
+			} finally {
+				
+			       if(preparedStmt != null )preparedStmt.close();
+			       conn.setAutoCommit(true);
+			        
+			}
+		}
 		
 }

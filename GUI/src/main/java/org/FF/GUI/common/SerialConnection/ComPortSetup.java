@@ -55,7 +55,6 @@ public class ComPortSetup{
 		serial = setup(115200, "Do you want to skip setup for the keypad(y/n)");
 			
 		if (serial != null) {
-			serial.addPortListener();
 			serial.openPort();
 			serialPorts.add(serial);
 		}else {
@@ -65,7 +64,7 @@ public class ComPortSetup{
 		
 		availablePorts();
 		
-		serial = setup(9600, "Do you want to skip setup for the rfid(y/n)");
+		serial = setup(115200, "Do you want to skip setup for the rfid(y/n)");
 		
 		if (serial != null) {
 			serial.openPort();

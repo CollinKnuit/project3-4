@@ -21,7 +21,7 @@ Keypad kpd = Keypad( makeKeymap(hexaKeys), rowPins,colPins , ROWS, COLS );
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  kpd.setDebounceTime(200);
+  kpd.setDebounceTime(100);
     while(Serial.available() ){
   }
 }

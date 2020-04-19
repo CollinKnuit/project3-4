@@ -3,7 +3,7 @@ package org.FF.GUI.common.SerialConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
-
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.fazecast.jSerialComm.SerialPort;
 
@@ -12,7 +12,7 @@ public class SerialConnection {
 	private SerialPort serialPort;
 	private ArrayBlockingQueue<String> waitingQueue = new ArrayBlockingQueue<String>(20);
 	private Thread portListener;
-	private volatile boolean exit = false;
+	private AtomicBoolean exit = new AtomicBoolean(false);
 
 	public SerialConnection(String serialPort, int boud) {
 		this.setSerialPort(serialPort, boud);
@@ -56,9 +56,9 @@ public class SerialConnection {
 	}
 
 	public void removePortListener() {
-		if(exit) return;
+		if(exit.get() || portListener == null) return;
 		try {
-			exit = true;
+			exit.compareAndSet(false, true);
 			portListener.join();
 			portListener = null;
 		} catch (InterruptedException e) {
@@ -96,11 +96,11 @@ public class SerialConnection {
 	 */
 	private void serialPortListener() {
 		if(portListener != null) return;
-		exit = false;
+		exit.compareAndSet(true, false);
 		portListener = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				while (!exit) {
+				while (!exit.get()) {
 					var bytesAvailable = serialPort.bytesAvailable();
 
 					if (bytesAvailable <= 0) {

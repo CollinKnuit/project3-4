@@ -6,6 +6,8 @@ import javax.swing.*;
 
 import org.FF.GUI.common.SerialConnection.SerialConnection;
 import org.FF.GUI.common.database.Acount;
+import org.FF.GUI.common.database.DatabaseQueryClass;
+
 import java.util.ArrayList;  
 
 public class Painter {
@@ -14,9 +16,9 @@ public class Painter {
 	private Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
 	private JLayeredPane p = new JLayeredPane();
 	private JTextField saldo;
-	private Timer timer;
 	private DatabaseQueryClass query = new DatabaseQueryClass();
 	private KeypadListener keypadSwitchScreenListener;
+	private RFIDListener fRfidListener;
 	private Acount acount;
 	private ImgBackgrounds currrentScreen;
 	private JTextField amount;
@@ -29,18 +31,18 @@ public class Painter {
 	 */
 	public Painter(ArrayList<SerialConnection> serialConnection) {
 		this.keypadSwitchScreenListener = new KeypadListener(this, serialConnection); 
-		this.timer = new Timer(10, keypadSwitchScreenListener);
-		
+		this.fRfidListener = new RFIDListener(this, serialConnection.get(1));
 		this.f = new JFrame();
 		this.f.setBounds(0, 0, this.screensize.width, this.screensize.height);
 		this.f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.f.getContentPane().setLayout(null);
 		this.f.setUndecorated(true);
 		this.f.setVisible(true);
-		this.f.setAlwaysOnTop (true);
+		fRfidListener.start();
+		keypadSwitchScreenListener.start();
+		//this.f.setAlwaysOnTop (true);
 		
-		switchPane(ImgBackgrounds.FH1_1);
-		this.currrentScreen = "FH1_1";
+		switchPane(ImgBackgrounds.FW1_1);
 	}
 		
 	
@@ -52,25 +54,18 @@ public class Painter {
 	 * @param img {@code ImgBackgrounds}
 	 */
 	public synchronized void switchPane(ImgBackgrounds img) {
-		timer.stop();
 		
 		JLayeredPane p2 = new JLayeredPane();
 		ImageIcon bgIcon = new ImageIcon(getClass().getResource("/"+ img+  ".png"));
 		JLabel imageLabel = new JLabel("", bgIcon, SwingConstants.CENTER);
-		JTextField listenerObject = new JTextField();
 	
-		listenerObject.setBounds(0, 0, 0, 0);
-		listenerObject.setVisible(false);
-		listenerObject.addActionListener(keypadSwitchScreenListener);
-		
 		
 		p2.setBounds(0, 0, this.screensize.width, this.screensize.height);
 		imageLabel.setBounds(0, 0, this.screensize.width, this.screensize.height);
 		
 		p2.add(imageLabel);
-		p2.add(listenerObject);
 
-		this.currrentScreen = ImgBackgrounds.img;
+		this.currrentScreen = img;
 		switch(img) {
 		 	case FB1_1:
 				 // code block
@@ -102,9 +97,9 @@ public class Painter {
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FH1_1, ImgBackgrounds.FP1_1, null, ImgBackgrounds.FW1_1, null, ImgBackgrounds.FB1_1, null);
 			    break;
 		 	case FH1_1:
-		 		//DONE																										  AFBREKEN MOET NOG
+		 		//																							  AFBREKEN MOET NOG
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FB1_1, ImgBackgrounds.FP1_1, ImgBackgrounds.FS1_1, ImgBackgrounds.FW1_1, null, null, null);
-
+				
 			    break;
 		 	case FP1_1:
 		 		
@@ -112,8 +107,10 @@ public class Painter {
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FH1_1, ImgBackgrounds.FV1_1, null, ImgBackgrounds.FW1_1, null, null, ImgBackgrounds.FB1_1);
 				break;
 			case FW1_1:
-				//DONE
 				keypadSwitchScreenListener.setImgSelectors(null, null, null, null, null, null, null);
+				keypadSwitchScreenListener.suspendThread();
+				fRfidListener.activateThread();
+				break;
 			case FL1_1:
 
 				this.password = new JPasswordField();
@@ -126,6 +123,9 @@ public class Painter {
 
 				keypadSwitchScreenListener.setImgSelectors(null, null, null, null, null, ImgBackgrounds.FH1_1, null);
 
+				fRfidListener.suspendThread();
+				keypadSwitchScreenListener.activateThread();
+				
 				break;
 
 				
@@ -137,7 +137,6 @@ public class Painter {
 
 		this.f.add(p);
 		f.repaint();
-		timer.start();
 	}
 
 	// returns a string wich represents wich backgroundImage is active
@@ -176,6 +175,10 @@ public class Painter {
 	
 	public synchronized DatabaseQueryClass getQuery() {
 		return this.query;
+	}
+	
+	public Acount getAcount() {
+		return acount;
 	}
 	
 
