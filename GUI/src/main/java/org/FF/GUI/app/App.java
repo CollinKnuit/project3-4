@@ -8,7 +8,9 @@ import org.FF.GUI.common.database.Acount;
 import org.FF.GUI.common.database.DatabaseQueryClass;
 import org.FF.GUI.common.database.Password;
 import org.FF.GUI.views.ImgBackgrounds;
+import org.FF.GUI.views.KeypadListener;
 import org.FF.GUI.views.Painter;
+import org.FF.GUI.views.RFIDListener;
 
 import java.awt.EventQueue;
 import java.awt.Image;
@@ -27,13 +29,14 @@ public class App {
 	
 	public static void main(String args[]) throws IOException, SQLException {  
         // create a welcome screen.
-        	
+       
         EventQueue.invokeLater(new Runnable() {
     		public void run() {
     			try {
-    				painter = new Painter(serialConnection.get(0));
+    				painter = new Painter(serialConnection);
     			} catch (Exception e) {
     				e.printStackTrace();
+					
     			}
     		}
     	});
