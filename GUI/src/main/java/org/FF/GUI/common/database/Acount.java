@@ -3,7 +3,7 @@ package org.FF.GUI.common.database;
 import java.math.BigDecimal;
 
 public class Acount {
-
+ 
 	private int AcountID = 0;
 	private BigDecimal Balance  = new BigDecimal(100); ;
 	private String RfidNumber = "1111112111111";

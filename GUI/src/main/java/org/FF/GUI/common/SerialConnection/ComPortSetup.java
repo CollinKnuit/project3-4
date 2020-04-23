@@ -106,6 +106,7 @@ public class ComPortSetup{
 	
 	/**
 	 * Sets up the SerialConnection 
+	 * 
 	 * @param boudRate and String to display
 	 * @return
 	 */
@@ -129,6 +130,7 @@ public class ComPortSetup{
 	
 	/**
 	 * Checks if there are ports
+	 * 
 	 * @return boolean
 	 */
 	private boolean availablePorts() {
@@ -145,6 +147,7 @@ public class ComPortSetup{
 	
 	/**
 	 * Waits for user input
+	 * 
 	 * @return boolean
 	 */
 	private boolean userinput() {
@@ -163,6 +166,7 @@ public class ComPortSetup{
 
 	/**
 	 * selects comport to use
+	 * 
 	 * @return String
 	 */
 	private String portComToUse() {
@@ -182,6 +186,7 @@ public class ComPortSetup{
 	
 	/**
 	 * gets all portnames
+	 * 
 	 * @return ArrayList<String> of portnames
 	 */
 	private ArrayList<String> getAllPortNames() {

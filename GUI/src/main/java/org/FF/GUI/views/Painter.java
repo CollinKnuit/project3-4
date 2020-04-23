@@ -27,6 +27,7 @@ public class Painter {
 	
 	/**
 	 * Sets up the begin frame and the keypadListener
+	 * 
 	 * @param serialConnection {@code SerialConnection}
 	 */
 	public Painter(ArrayList<SerialConnection> serialConnection) {
@@ -47,10 +48,12 @@ public class Painter {
 		
 	
 	/**
+	 * set the imgSelectors in every case.
 	 * and if it is the saldo screen or the screen where you type in an amount add an JTextField after the text.
 	 * set the boundries for every component in the frame including the frame itself. 
 	 * add the label to the pane and the pane to the frame. 
 	 * and set the behavior for the frame.
+	 * 
 	 * @param img {@code ImgBackgrounds}
 	 */
 	public synchronized void switchPane(ImgBackgrounds img) {
@@ -68,7 +71,6 @@ public class Painter {
 		this.currrentScreen = img;
 		switch(img) {
 		 	case FB1_1:
-				 // code block
 				//DONE	
 		 		
 				keypadSwitchScreenListener.setImgSelectors(null, null, null, null, ImgBackgrounds.FW1_1, ImgBackgrounds.FW1_1, null);
@@ -83,7 +85,7 @@ public class Painter {
 				
 				saldo.setEditable(false);
 				p2.add(saldo, JLayeredPane.POPUP_LAYER);
-				//DONE																						//afbreken moet nog
+				//DONE																						
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FH1_1, ImgBackgrounds.FP1_1, null, ImgBackgrounds.FW1_1, null, null, null);
 				break;
 				
@@ -97,13 +99,13 @@ public class Painter {
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FH1_1, ImgBackgrounds.FP1_1, null, ImgBackgrounds.FW1_1, null, ImgBackgrounds.FB1_1, null);
 			    break;
 		 	case FH1_1:
-		 		//																							  AFBREKEN MOET NOG
+		 		//																							  
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FB1_1, ImgBackgrounds.FP1_1, ImgBackgrounds.FS1_1, ImgBackgrounds.FW1_1, null, null, null);
 				
 			    break;
 		 	case FP1_1:
 		 		
-		 		//DONE																						  AFBREKEN MOET NOG
+		 		//DONE																						
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FH1_1, ImgBackgrounds.FV1_1, null, ImgBackgrounds.FW1_1, null, null, ImgBackgrounds.FB1_1);
 				break;
 			case FW1_1:
@@ -139,12 +141,10 @@ public class Painter {
 		f.repaint();
 	}
 
-	// returns a string wich represents wich backgroundImage is active
 	public synchronized ImgBackgrounds getScreen() {
 		return currrentScreen;
 	}
-
-	// return a string wich contains the amount of money the user wants to withdraw
+	
 	public synchronized String getAmount() {
 		return this.amount.getText();
 	}

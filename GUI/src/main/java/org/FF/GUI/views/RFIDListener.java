@@ -46,6 +46,14 @@ public class RFIDListener extends Thread{
 		
 	}
 	
+	/**
+	 * if suspend is false wait otherwise continue with the method
+	 * store the input from the RFID in rfids and set acountID to -1
+	 * go through everything in rfids. At the beginning of the loop set acountID to -1
+	 * try to update acountID with the method checkRFID(r) 
+	 * if acountID is still -1 then go to the next item in the rfids otherwise update acountID in acount with the parameter acountID.
+	 * after that change the displayed screen to FL1_1 (wich is the login screen).
+	 */
 	@Override
 	public void run() {
 		

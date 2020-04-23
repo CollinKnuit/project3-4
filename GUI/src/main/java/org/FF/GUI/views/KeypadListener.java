@@ -58,6 +58,15 @@ public class KeypadListener extends Thread{
 		
 	}
 	
+	/**
+	 * If exit is false otherwise continue with the method
+	 * if suspend is false wait otherwise continue with the method
+	 * store the input from the keypad in commands and store the current screen in screen
+	 * if commands matches A,B,C,D change the displayed screen to that specific imgSelector
+	 * if commands matches * do either backspace or change the displayed screen to the welcome screen depending on the current screen
+	 * if commands matches # either do enter or change the displayed screen to the welcome screen depending on the current screen
+	 * else depending on the current screen run choiceScreen, setAmount or setPassword.
+	 */
 	@Override
 	public void run() {
 		serialConnectionKeypad.addPortListener();
@@ -68,7 +77,6 @@ public class KeypadListener extends Thread{
 					try {
 						this.wait();
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -172,6 +180,7 @@ public class KeypadListener extends Thread{
 	}
 		
 	/**
+	 * depending on the parameter a (amount) print 10, 20, 30 or 40 euro's
 	 * 
 	 * @param a
 	 */
@@ -197,13 +206,19 @@ public class KeypadListener extends Thread{
 	}
 	
 	/**
+	 * if the parameter screen equals FV1_1 check if the amount is legit. If not, clear input and the displayed amount
+	 * else if balance from acount is bigger than amount put amount on the screen and clear input
+	 * else clear input and the displayed amount
 	 * 
-	 * @param a
+	 * if the parameter screen equals FL1_1 check if input is a pair with acountID (from acount) in hasmap. If so request acountInfo 
+	 * from acount out of the database and update acount with the values from the query in the method getAcountInfo and continue to the homescreen
+	 * and after that clear input and the displayed password
+	 * @param s
 	 */
-	private void enter(ImgBackgrounds a) {
+	private void enter(ImgBackgrounds screen) {
 		if(input == "") return;
 		
-		switch(a) {
+		switch(screen) {
 		  	case FV1_1:
 			  	var amount = Integer.parseInt(this.input);
 			  	
@@ -251,6 +266,10 @@ public class KeypadListener extends Thread{
 	}
 
 	/**
+	 * If the input is not empty make a new input wich is one character smaller.
+	 * if the parameter screen is FV1_1 set the displayed amount with the value input
+	 * if screen is FL1_1 set the displayed password with the value input
+	 * otherwise clear input 
 	 * 
 	 * @param screen
 	 */
@@ -275,6 +294,8 @@ public class KeypadListener extends Thread{
 
 
 	/**
+	 * if the remainder of the parameter amount / 10 equals 0 return true
+	 * otherwise return false
 	 * 
 	 * @param amount
 	 * @return
@@ -301,17 +322,17 @@ public class KeypadListener extends Thread{
 	}
 	
 	
-	
 	public SerialConnection getSerialConnectionKeypad() {
 		return serialConnectionKeypad;
 	}
 
 
 	/**
-	 * Sets the img to change to
+	 * changes the imgSelectors to
+	 * 
 	 * @param imgSelectorA 	is button A {@code ImgBackgrounds}
 	 * @param imgSelectorB	is button B	{@code ImgBackgrounds}
-	 * @param imgSelectorC	is button C {@code ImgBackgrounds}sss
+	 * @param imgSelectorC	is button C {@code ImgBackgrounds}
 	 * @param imgSelectorD	is button D	{@code ImgBackgrounds}
      * @param imgSelectorS	is button D	{@code ImgBackgrounds}
 	 * @param imgSelectorH	is button H	{@code ImgBackgrounds}

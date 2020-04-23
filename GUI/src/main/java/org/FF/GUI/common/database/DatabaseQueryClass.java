@@ -19,6 +19,7 @@ public class DatabaseQueryClass {
 		}
 		
 		/**
+		 * pass in a acountID and plainPassword and this query checks if the password matches the acountID in the database
 		 * 
 		 * @param acountId
 		 * @param plainPassword
@@ -52,7 +53,6 @@ public class DatabaseQueryClass {
 				}
 				
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				
 			} finally {
@@ -79,7 +79,13 @@ public class DatabaseQueryClass {
 		}
 		
 		
-		
+		/**
+		 * pass in a acountID to increase the attribute password_attempt_wrong of the acount that matches the parameter acountID
+		 * in the database
+		 * 
+		 * @param acountID
+		 * @throws SQLException
+		 */
 		private void changeLoginNumber(int acountID) throws SQLException {
 			var conn = connection.getConnection();
 			
@@ -101,7 +107,6 @@ public class DatabaseQueryClass {
 				conn.setAutoCommit(true);
 				
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				
 				try{
@@ -120,6 +125,8 @@ public class DatabaseQueryClass {
 		}
 		
 		/**
+		 * pass in an acountID and receive the balance, rfidNumber and password_atempt_wrong
+		 * and update the fields in acount with the values that you get back from the database through the query
 		 * 
 		 * @param acountId
 		 * @return {@code Acount}
@@ -155,7 +162,6 @@ public class DatabaseQueryClass {
 				setPassword_Atempt_WrongCorrect(acountId);
 				
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				
 			} finally {
@@ -167,7 +173,8 @@ public class DatabaseQueryClass {
 		}
 		
 		/**
-		 * Withdraws money from a action
+		 * Withdraws money from a acount with acountID matching the parameter acountID
+		 * 
 		 * @param acountId
 		 * @param money
 		 * @throws SQLException
@@ -227,6 +234,7 @@ public class DatabaseQueryClass {
 		}
 		
 		/**
+		 * check if the parameter rfid matches a rfid in the database and returns the matching acountID
 		 * 
 		 * @param rfid
 		 * @return AcountID If its -1 it could not be found
@@ -267,6 +275,7 @@ public class DatabaseQueryClass {
 		
 		
 		/**
+		 * reset the password_atempt_wrong attribute in the database with acountID matching the parameter acountID
 		 * 
 		 * @param acountId
 		 * @throws SQLException
