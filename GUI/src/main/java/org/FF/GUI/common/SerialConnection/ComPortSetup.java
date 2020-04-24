@@ -40,7 +40,7 @@ public class ComPortSetup{
 		if (!availablePorts()) {
 			System.out.println("Er zijn geen ports available.");
 			System.out.println("Attach een port op de pc");
-			System.out.println("De program gaat nu stoppen");
+			System.out.println("Het programma gaat nu stoppen");
 			scanner.close();
 			System.exit(0) ;
 			
@@ -179,7 +179,7 @@ public class ComPortSetup{
 				return b;
 				
 			} catch (NumberFormatException  e) {
-				System.out.println("Die id bestaat niet");
+				System.out.println("Dat id bestaat niet");
 			}
 		}	
 	}

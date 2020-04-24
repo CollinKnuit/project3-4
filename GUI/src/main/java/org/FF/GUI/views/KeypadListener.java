@@ -129,7 +129,7 @@ public class KeypadListener extends Thread{
 						if(screen == ImgBackgrounds.FB1_1){
 							painter.switchPane(imgSelectorH);
 						} 
-						else {
+						else if(screen == ImgBackgrounds.FL1_1) {
 							enter(screen);
 						}
 			  	    
@@ -208,15 +208,16 @@ public class KeypadListener extends Thread{
 	/**
 	 * if the parameter screen equals FV1_1 check if the amount is legit. If not, clear input and the displayed amount
 	 * else if balance from acount is bigger than amount put amount on the screen and clear input
-	 * else clear input and the displayed amount
+	 * else clear input and the displayed amount and display the error message
 	 * 
 	 * if the parameter screen equals FL1_1 check if input is a pair with acountID (from acount) in hasmap. If so request acountInfo 
 	 * from acount out of the database and update acount with the values from the query in the method getAcountInfo and continue to the homescreen
-	 * and after that clear input and the displayed password
+	 * and after that clear input and the displayed password and display the error message
+	 * 
 	 * @param s
 	 */
 	private void enter(ImgBackgrounds screen) {
-		if(input == "") return;
+		if(this.input == "") return;
 		
 		switch(screen) {
 		  	case FV1_1:
@@ -235,6 +236,7 @@ public class KeypadListener extends Thread{
 					this.input = "";
 				} else {
 					painter.setAmount("");
+					painter.setErrorMsgVisible(true, screen);
 					this.input = "";
 				}
 				break;
@@ -245,7 +247,7 @@ public class KeypadListener extends Thread{
 					var hashmap = painter.getQuery().checkPassword(painter.getAcountID(), this.input);
 					
 					if(hashmap.containsKey(false)) {
-						
+						painter.setErrorMsgVisible(true, screen);
 					}
 					else {
 						painter.setAccount(painter.getQuery().getAcountInfo(painter.getAcountID()));
