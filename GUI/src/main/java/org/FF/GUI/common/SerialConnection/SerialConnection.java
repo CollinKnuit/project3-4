@@ -3,7 +3,7 @@ package org.FF.GUI.common.SerialConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
-
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.fazecast.jSerialComm.SerialPort;
 
@@ -12,7 +12,7 @@ public class SerialConnection {
 	private SerialPort serialPort;
 	private ArrayBlockingQueue<String> waitingQueue = new ArrayBlockingQueue<String>(20);
 	private Thread portListener;
-	private volatile boolean exit = false;
+	private AtomicBoolean exit = new AtomicBoolean(false);
 
 	public SerialConnection(String serialPort, int boud) {
 		this.setSerialPort(serialPort, boud);
@@ -24,6 +24,7 @@ public class SerialConnection {
 
 	/**
  	* Opens the port
+ 	* 
  	* @return
  	*/
 	public boolean openPort() {
@@ -45,6 +46,7 @@ public class SerialConnection {
 
 	/**
 	 * adds a portlistner
+	 * 
 	 * @throws NullPointerException
 	 */
 	public void addPortListener() throws NullPointerException {
@@ -56,9 +58,9 @@ public class SerialConnection {
 	}
 
 	public void removePortListener() {
-		if(exit) return;
+		if(exit.get() || portListener == null) return;
 		try {
-			exit = true;
+			exit.compareAndSet(false, true);
 			portListener.join();
 			portListener = null;
 		} catch (InterruptedException e) {
@@ -69,6 +71,7 @@ public class SerialConnection {
 
 	/**
 	 * Sends data trough the comPort
+	 * 
 	 * @param buffer
 	 * @throws NullPointerException
 	 */
@@ -93,14 +96,15 @@ public class SerialConnection {
 
 	/**
 	 * sets up a serialPortListener and puts it in the queue
+	 * 
 	 */
 	private void serialPortListener() {
 		if(portListener != null) return;
-		exit = false;
+		exit.compareAndSet(true, false);
 		portListener = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				while (!exit) {
+				while (!exit.get()) {
 					var bytesAvailable = serialPort.bytesAvailable();
 
 					if (bytesAvailable <= 0) {
@@ -123,6 +127,7 @@ public class SerialConnection {
 
 	/**
 	 * Sets the serialPort settings
+	 * 
 	 * @param serialPortToUse
 	 * @param boudrate
 	 */
@@ -137,6 +142,7 @@ public class SerialConnection {
 
 	/**
 	 * gets all info thats in the queue
+	 * 
 	 * @return
 	 */
 	public List<String> getWaitingQueue() {

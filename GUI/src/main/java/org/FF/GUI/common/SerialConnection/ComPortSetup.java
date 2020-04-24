@@ -55,7 +55,6 @@ public class ComPortSetup{
 		serial = setup(115200, "Do you want to skip setup for the keypad(y/n)");
 			
 		if (serial != null) {
-			serial.addPortListener();
 			serial.openPort();
 			serialPorts.add(serial);
 		}else {
@@ -65,7 +64,7 @@ public class ComPortSetup{
 		
 		availablePorts();
 		
-		serial = setup(9600, "Do you want to skip setup for the rfid(y/n)");
+		serial = setup(115200, "Do you want to skip setup for the rfid(y/n)");
 		
 		if (serial != null) {
 			serial.openPort();
@@ -107,6 +106,7 @@ public class ComPortSetup{
 	
 	/**
 	 * Sets up the SerialConnection 
+	 * 
 	 * @param boudRate and String to display
 	 * @return
 	 */
@@ -130,6 +130,7 @@ public class ComPortSetup{
 	
 	/**
 	 * Checks if there are ports
+	 * 
 	 * @return boolean
 	 */
 	private boolean availablePorts() {
@@ -146,6 +147,7 @@ public class ComPortSetup{
 	
 	/**
 	 * Waits for user input
+	 * 
 	 * @return boolean
 	 */
 	private boolean userinput() {
@@ -164,6 +166,7 @@ public class ComPortSetup{
 
 	/**
 	 * selects comport to use
+	 * 
 	 * @return String
 	 */
 	private String portComToUse() {
@@ -183,6 +186,7 @@ public class ComPortSetup{
 	
 	/**
 	 * gets all portnames
+	 * 
 	 * @return ArrayList<String> of portnames
 	 */
 	private ArrayList<String> getAllPortNames() {
