@@ -1,6 +1,7 @@
 package org.FF.GUI.views;
 
 import java.awt.*;
+import java.sql.SQLException;
 
 import javax.swing.*;
 
@@ -35,6 +36,7 @@ public class Painter {
 	public Painter(ArrayList<SerialConnection> serialConnection) {
 		this.keypadSwitchScreenListener = new KeypadListener(this, serialConnection); 
 		this.fRfidListener = new RFIDListener(this, serialConnection.get(1));
+		this.acount = new Acount();
 		this.f = new JFrame();
 		this.f.setBounds(0, 0, this.screensize.width, this.screensize.height);
 		this.f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,6 +46,7 @@ public class Painter {
 		fRfidListener.start();
 		keypadSwitchScreenListener.start();
 		//this.f.setAlwaysOnTop (true);
+	
 		
 		switchPane(ImgBackgrounds.FW1_1);
 	}
@@ -103,9 +106,11 @@ public class Painter {
 				
 				this.errorMsgAmount = new JLabel();
 				this.errorMsgAmount.setBounds(300, 550, 660, 45);
-				this.errorMsgAmount.setText("Dit kan niet u. Zoveel geld heeft u niet.");
 				this.errorMsgAmount.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
+				this.errorMsgAmount.setForeground(Color.decode("#FF0000"));
+				this.errorMsgAmount.setBackground(Color.decode("#CCCCCC"));
 				this.errorMsgAmount.setVisible(false);
+				this.errorMsgAmount.setOpaque(true);
 				
 				p2.add(this.amount, JLayeredPane.POPUP_LAYER);
 				p2.add(errorMsgAmount, JLayeredPane.POPUP_LAYER);
@@ -128,7 +133,7 @@ public class Painter {
 				fRfidListener.activateThread();
 				break;
 			case FL1_1:
-
+				
 				this.password = new JPasswordField();
 		 		this.password.setText("");
 				this.password.setBounds(980, 460, 350, 60);
@@ -136,9 +141,11 @@ public class Painter {
 				this.password.setColumns(10);
 				
 				this.errorMsgLogin = new JLabel();
-				this.errorMsgLogin.setBounds(630, 550, 600, 45);
-				this.errorMsgLogin.setText("Pincode incorrect probeer opnieuw");
+				this.errorMsgLogin.setBounds(450, 550, 1000, 45);
 				this.errorMsgLogin.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
+				this.errorMsgLogin.setForeground(Color.decode("#FF0000"));
+				this.errorMsgLogin.setBackground(Color.decode("#CCCCCC"));
+				this.errorMsgLogin.setOpaque(true);
 				this.errorMsgLogin.setVisible(false);
 				
 				this.password.setEditable(false);
@@ -210,13 +217,16 @@ public class Painter {
 	 * @param visible
 	 * @param currentScreen
 	 */
-	public synchronized void setErrorMsgVisible(boolean visible, ImgBackgrounds currentScreen) {
+	public synchronized void setErrorMsgVisible(boolean visible, ImgBackgrounds currentScreen, int attempts_wrong) {
 		
 		switch (currentScreen) {
 			case FV1_1:
+				this.errorMsgAmount.setText("Dit kan niet u. Zoveel geld heeft u niet.");
 				this.errorMsgAmount.setVisible(visible);
 				break;
 			case FL1_1:
+				
+				this.errorMsgLogin.setText("Pincode incorrect probeer opnieuw nog " + (3-attempts_wrong) + " pogingen over.");
 				this.errorMsgLogin.setVisible(visible);
 				break;
 			default:

@@ -129,7 +129,7 @@ public class KeypadListener extends Thread{
 						if(screen == ImgBackgrounds.FB1_1){
 							painter.switchPane(imgSelectorH);
 						} 
-						else if(screen == ImgBackgrounds.FL1_1) {
+						else {
 							enter(screen);
 						}
 			  	    
@@ -213,11 +213,11 @@ public class KeypadListener extends Thread{
 	 * if the parameter screen equals FL1_1 check if input is a pair with acountID (from acount) in hasmap. If so request acountInfo 
 	 * from acount out of the database and update acount with the values from the query in the method getAcountInfo and continue to the homescreen
 	 * and after that clear input and the displayed password and display the error message
-	 * 
+	 * to display the error message properly the method stores the amount of wrong attempts from the query and gives it to the method displaying the error message.
 	 * @param s
 	 */
 	private void enter(ImgBackgrounds screen) {
-		if(this.input == "") return;
+		if(input == "") return;
 		
 		switch(screen) {
 		  	case FV1_1:
@@ -236,7 +236,7 @@ public class KeypadListener extends Thread{
 					this.input = "";
 				} else {
 					painter.setAmount("");
-					painter.setErrorMsgVisible(true, screen);
+					painter.setErrorMsgVisible(true, screen, 0);
 					this.input = "";
 				}
 				break;
@@ -247,7 +247,8 @@ public class KeypadListener extends Thread{
 					var hashmap = painter.getQuery().checkPassword(painter.getAcountID(), this.input);
 					
 					if(hashmap.containsKey(false)) {
-						painter.setErrorMsgVisible(true, screen);
+						int attempts_wrong = hashmap.values().stream().findFirst().get();
+						painter.setErrorMsgVisible(true, screen, attempts_wrong);
 					}
 					else {
 						painter.setAccount(painter.getQuery().getAcountInfo(painter.getAcountID()));
