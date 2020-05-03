@@ -138,7 +138,6 @@ public class KeypadListener extends Thread{
 					default:
 						if(screen == ImgBackgrounds.FP1_1) {
 							choiceScreen(c);
-							painter.switchPane(ImgBackgrounds.FB1_1);
 							break;
 						}
 						
@@ -180,29 +179,31 @@ public class KeypadListener extends Thread{
 	}
 		
 	/**
-	 * depending on the parameter a (amount) print 10, 20, 30 or 40 euro's
+	 * depending on the parameter a (amount) print 10, 20, 50 euro's
 	 * 
 	 * @param a
 	 */
 	private void choiceScreen(String a){
+		input = "";
 		switch(a) {
 		  	case "1":
 				//kies 10 euro
-			
+		  		input = "10";
 				break;
 			case "2":
 				//kies 20 euro
-				
+				input = "20";
 				break;
 			case "3":
 				//kies 50 euro
-			
+				input = "50";
 				break;
 			case "4":
-				//kies 100 euro
-				
+				input = "100";
 				break;
 		}
+		
+		enter(ImgBackgrounds.FP1_1);
 	}
 	
 	/**
@@ -215,30 +216,19 @@ public class KeypadListener extends Thread{
 	 * and after that clear input and the displayed password and display the error message
 	 * to display the error message properly the method stores the amount of wrong attempts from the query and gives it to the method displaying the error message.
 	 * @param s
+	 * @throws SQLException 
 	 */
-	private void enter(ImgBackgrounds screen) {
+	private void enter(ImgBackgrounds screen)  {
 		if(input == "") return;
 		
 		switch(screen) {
 		  	case FV1_1:
-			  	var amount = Integer.parseInt(this.input);
-			  	
-			  	if(!checkIfLegitSum(amount)) {
-			  		this.input = "";
-			  		painter.setAmount("");
-			  		return;
-			  	}
-			
-			  	var d = new BigDecimal(amount);
-				if (painter.getAcount().getBalance().compareTo(d) == 1 ) {
-					painter.setAmount(Integer.toString(amount));
-					painter.switchPane(imgSelectorH);
-					this.input = "";
-				} else {
-					painter.setAmount("");
-					painter.setErrorMsgVisible(true, screen, 0);
-					this.input = "";
-				}
+			try {
+				withdrawMoney();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 				break;
 			case FL1_1:
 				
@@ -249,6 +239,10 @@ public class KeypadListener extends Thread{
 					if(hashmap.containsKey(false)) {
 						int attempts_wrong = hashmap.values().stream().findFirst().get();
 						painter.setErrorMsgVisible(true, screen, attempts_wrong);
+						if(attempts_wrong == 3) {
+							Thread.sleep(5000);
+							painter.switchPane(ImgBackgrounds.FW1_1);
+						}
 					}
 					else {
 						painter.setAccount(painter.getQuery().getAcountInfo(painter.getAcountID()));
@@ -257,15 +251,42 @@ public class KeypadListener extends Thread{
 					input = "";
 					painter.setPassword(input);
 				
-				} catch (SQLException e) {
+				} catch (SQLException | InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;
-		default:
-			break;
+			case FP1_1:
+			try {
+				withdrawMoney();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+				break;
 		
 		}					
+	}
+	
+	private void withdrawMoney() throws SQLException {
+		var amount = Integer.parseInt(this.input);
+	  	
+	  	if(!checkIfLegitSum(amount)) {
+	  		this.input = "";
+	  		painter.setAmount("");
+	  		return;
+	  	}
+	
+	  	var d = new BigDecimal(amount);
+		if (painter.getAcount().getBalance().compareTo(d) == 1 ) {
+			painter.setAmount(Integer.toString(amount));
+			painter.switchPane(ImgBackgrounds.FB1_1);
+			this.input = "";
+		} else {
+			if(painter.getAmount() != null) painter.setAmount("");
+			painter.setErrorMsgVisible(true, ImgBackgrounds.error, 0);
+			this.input = "";
+		}
 	}
 
 	/**

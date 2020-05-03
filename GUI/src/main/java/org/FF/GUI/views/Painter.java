@@ -87,11 +87,10 @@ public class Painter {
 				
 		 		break;
 			case FS1_1:
-	
 		 		this.saldo = new JTextField();
 		 		this.saldo.setText(acount.getBalance().toString());
 		 		this.saldo.setBounds(690, 470, 350, 60);
-		 		this.saldo.setFont(new Font(this.amount.getFont().getName(),Font.BOLD, 36));
+		 		this.saldo.setFont(new Font(null,Font.BOLD, 36));
 		 		this.saldo.setColumns(10);
 				
 				saldo.setEditable(false);
@@ -104,7 +103,7 @@ public class Painter {
 		 		this.amount = new JTextField();
 				this.amount.setBounds(830, 460, 350, 75);
 				this.amount.setColumns(10);
-				this.amount.setFont(new Font(this.amount.getFont().getName(),Font.BOLD, 36));
+				this.amount.setFont(new Font(null,Font.BOLD, 36));
 				this.amount.setEditable(false);
 				
 				
@@ -127,7 +126,20 @@ public class Painter {
 				
 			    break;
 		 	case FP1_1:
-		 		
+		 		this.amount = new JTextField();
+				this.amount.setBounds(830, 460, 350, 75);
+				this.amount.setColumns(10);
+				this.amount.setFont(new Font(null,Font.BOLD, 36));
+				this.amount.setEditable(false);
+				
+				
+				this.errorMsgAmount = new JLabel();
+				this.errorMsgAmount.setBounds(300, 550, 660, 45);
+				this.errorMsgAmount.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
+				this.errorMsgAmount.setForeground(Color.decode("#FF0000"));
+				this.errorMsgAmount.setBackground(Color.decode("#CCCCCC"));
+				this.errorMsgAmount.setVisible(false);
+				this.errorMsgAmount.setOpaque(true);
 		 		//DONE																						
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FH1_1, ImgBackgrounds.FV1_1, null, ImgBackgrounds.FW1_1, null, null, ImgBackgrounds.FB1_1);
 				break;
@@ -179,6 +191,7 @@ public class Painter {
 	}
 	
 	public synchronized String getAmount() {
+		if(amount == null) return null;
 		return this.amount.getText();
 	}
 
@@ -224,16 +237,14 @@ public class Painter {
 	public synchronized void setErrorMsgVisible(boolean visible, ImgBackgrounds currentScreen, int attempts_wrong) {
 		
 		switch (currentScreen) {
-			case FV1_1:
-				this.errorMsgAmount.setText("Dit kan niet u. Zoveel geld heeft u niet.");
-				this.errorMsgAmount.setVisible(visible);
-				break;
 			case FL1_1:
 				
 				this.errorMsgLogin.setText("Pincode incorrect probeer opnieuw nog " + (3-attempts_wrong) + " pogingen over.");
 				this.errorMsgLogin.setVisible(visible);
 				break;
 			default:
+				this.errorMsgAmount.setText("Dit kan niet u. Zoveel geld heeft u niet.");
+				this.errorMsgAmount.setVisible(visible);
 				break;
 		}
 	}
