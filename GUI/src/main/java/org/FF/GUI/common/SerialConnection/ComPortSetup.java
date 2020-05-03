@@ -9,16 +9,19 @@ public class ComPortSetup{
 	
 	private Scanner scanner = new Scanner(System.in);
 	private ArrayList<String> portNames;
-
-	public ComPortSetup() {
+	private String[] config;
+	
+	public ComPortSetup(String[] config) {
 		this.portNames = getAllPortNames();
+		this.config = config;
 	}
 	
+	
 	/**
-	 * The first index is the keypad
-	 * The second index is the rfid
-	 * The third index is the dispenser
-	 * The fourth index is the bonprinter
+	 * Index 0 is the keypad
+	 * Index 1 is the rfid
+	 * Index 2 is the dispenser
+	 * Index 3 is the bonprinter
 	 * @return an array with all comports
 	 *
 	 */
@@ -52,7 +55,7 @@ public class ComPortSetup{
 		var serial = new SerialConnection();
 		
 
-		serial = setup(115200, "Do you want to skip setup for the keypad(y/n)");
+		serial = setup(115200, "Do you want to skip setup for the keypad(y/n)", 0);
 			
 		if (serial != null) {
 			serial.openPort();
@@ -64,7 +67,7 @@ public class ComPortSetup{
 		
 		availablePorts();
 		
-		serial = setup(115200, "Do you want to skip setup for the rfid(y/n)");
+		serial = setup(115200, "Do you want to skip setup for the rfid(y/n)", 1);
 		
 		if (serial != null) {
 			serial.openPort();
@@ -78,7 +81,7 @@ public class ComPortSetup{
 		
 		availablePorts();
 		
-		serial = setup(9600, "Do you want to skip setup for the dispenser(y/n)");
+		serial = setup(9600, "Do you want to skip setup for the dispenser(y/n)", 2);
 		
 		if (serial != null) {
 			serial.openPort(); 
@@ -89,7 +92,7 @@ public class ComPortSetup{
 		}
 		
 	
-		serial = setup(9600, "Do you want to skip setup for the bonPrinter(y/n)");
+		serial = setup(9600, "Do you want to skip setup for the bonPrinter(y/n)" ,3);
 		
 		if (serial != null) {
 			serial.openPort();
@@ -110,13 +113,14 @@ public class ComPortSetup{
 	 * @param boudRate and String to display
 	 * @return
 	 */
-	private SerialConnection setup(int boudRate, String sysoutString) {
+	private SerialConnection setup(int boudRate, String sysoutString, int place) {
 		if (portNames.isEmpty()) return null;
 		
 		System.out.println(sysoutString);
 		
 		if(!userinput()) {
 			var a = portComToUse();
+			config[place] = a;
 			var serial = new SerialConnection(a, boudRate);
 			portNames.remove(a);
 			serial.openPort();
@@ -144,6 +148,7 @@ public class ComPortSetup{
 		}
 		return true;
 	}
+
 	
 	/**
 	 * Waits for user input
@@ -202,5 +207,37 @@ public class ComPortSetup{
 		}
 
 		return array;
+	}
+	
+	
+	public ArrayList<SerialConnection> getPorts() {
+		
+		ArrayList<SerialConnection> serial = new ArrayList<SerialConnection>();
+		var a = new SerialConnection(config[0], 115200);
+		a.openPort();
+		
+		serial.add(a);
+		
+		var b = new SerialConnection(config[1], 115200);
+		b.openPort();
+		serial.add(b);
+		
+		if(!config[2].contains("null")) {
+			var c = new SerialConnection(config[2], 9600);
+			c.openPort();
+			serial.add(c);
+		}else {
+			serial.add(null);
+		}
+		
+		if(!config[3].contains("null")) {
+			var d = new SerialConnection(config[3], 9600);
+			d.openPort();
+			serial.add(d);
+		}else {
+			serial.add(null);
+		}
+		
+		return serial;
 	}
 }
