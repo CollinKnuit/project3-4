@@ -125,22 +125,18 @@ public class Painter {
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FB1_1, ImgBackgrounds.FP1_1, ImgBackgrounds.FS1_1, ImgBackgrounds.FW1_1, null, null, null);
 				
 			    break;
-		 	case FP1_1:
-		 		this.amount = new JTextField();
-				this.amount.setBounds(830, 460, 350, 75);
-				this.amount.setColumns(10);
-				this.amount.setFont(new Font(null,Font.BOLD, 36));
-				this.amount.setEditable(false);
-				
+		 	case FP1_1:				
 				
 				this.errorMsgAmount = new JLabel();
-				this.errorMsgAmount.setBounds(300, 550, 660, 45);
+				this.errorMsgAmount.setBounds(350, 800, 660, 45);
 				this.errorMsgAmount.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
 				this.errorMsgAmount.setForeground(Color.decode("#FF0000"));
 				this.errorMsgAmount.setBackground(Color.decode("#CCCCCC"));
 				this.errorMsgAmount.setVisible(false);
 				this.errorMsgAmount.setOpaque(true);
-		 		//DONE																						
+		 		
+				p2.add(errorMsgAmount, JLayeredPane.POPUP_LAYER);
+				
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FH1_1, ImgBackgrounds.FV1_1, null, ImgBackgrounds.FW1_1, null, null, ImgBackgrounds.FB1_1);
 				break;
 			case FW1_1:
