@@ -38,7 +38,7 @@ public class DatabaseQueryClass {
 			
 			
 			String stored_hash = "";
-			int Password_Atempt_Wrong = -1;
+			int Password_Atempt_Wrong = 3;
 			PreparedStatement preparedStmt = null;
 			
 			try {
@@ -66,6 +66,7 @@ public class DatabaseQueryClass {
 			if(!Password.checkPassword(plainPassword, stored_hash)) {
 				changeLoginNumber(acountId);
 				 a = false;
+				 Password_Atempt_Wrong++;
 			} else {
 				a = true;
 			}
@@ -249,7 +250,7 @@ public class DatabaseQueryClass {
 			String query =  "SELECT AcountID " + 
 							"FROM acount " +  
 							"WHERE (RfidNumber = ?)" + 
-							";";
+							"AND `Password_Atempt_Wrong` < 3;";
 			
 			try {
 				preparedStmt = conn.prepareStatement(query);
