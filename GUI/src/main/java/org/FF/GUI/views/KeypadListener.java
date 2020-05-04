@@ -89,7 +89,17 @@ public class KeypadListener extends Thread{
 				switch(c) {
 					case "A":
 						if(imgSelectorA != null) {
-							painter.switchPane(imgSelectorA);
+							
+							if(imgSelectorA == ImgBackgrounds.FB1_1) {
+								input = "70";
+								try {
+									withdrawMoney();
+								} catch (SQLException e) {
+									e.printStackTrace();
+								}
+							} else {
+								painter.switchPane(imgSelectorA);
+							}
 						}
 						break;
 				  	
@@ -257,14 +267,13 @@ public class KeypadListener extends Thread{
 				}
 				break;
 			case FP1_1:
-			try {
-				withdrawMoney();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-				break;
-		
+				try {
+					withdrawMoney();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+					break;
 		}					
 	}
 	

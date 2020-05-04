@@ -121,7 +121,17 @@ public class Painter {
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FH1_1, ImgBackgrounds.FP1_1, null, ImgBackgrounds.FW1_1, null, ImgBackgrounds.FB1_1, null);
 			    break;
 		 	case FH1_1:
-		 		//																							  
+		 		
+		 		this.errorMsgAmount = new JLabel();
+				this.errorMsgAmount.setBounds(350, 800, 660, 45);
+				this.errorMsgAmount.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
+				this.errorMsgAmount.setForeground(Color.decode("#FF0000"));
+				this.errorMsgAmount.setBackground(Color.decode("#CCCCCC"));
+				this.errorMsgAmount.setVisible(false);
+				this.errorMsgAmount.setOpaque(true);
+		 		
+				p2.add(errorMsgAmount, JLayeredPane.POPUP_LAYER);
+		 		
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FB1_1, ImgBackgrounds.FP1_1, ImgBackgrounds.FS1_1, ImgBackgrounds.FW1_1, null, null, null);
 				
 			    break;
