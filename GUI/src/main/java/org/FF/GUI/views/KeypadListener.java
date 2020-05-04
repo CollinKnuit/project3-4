@@ -284,6 +284,7 @@ public class KeypadListener extends Thread{
 	  	if(!checkIfLegitSum(amount)) {
 	  		this.input = "";
 	  		painter.setAmount("");
+	  		painter.setErrorMsgVisible(true, ImgBackgrounds.FV1_1, 0);
 	  		return;
 	  	}
 	

@@ -248,8 +248,13 @@ public class Painter {
 				this.errorMsgLogin.setText("Pincode incorrect probeer opnieuw nog " + (3-attempts_wrong) + " pogingen over.");
 				this.errorMsgLogin.setVisible(visible);
 				break;
-			default:
-				this.errorMsgAmount.setText("Dit kan niet u. Zoveel geld heeft u niet.");
+				
+			case FV1_1:
+				this.errorMsgAmount.setText("Het bedrag is niet deelbaar door 10.");
+				this.errorMsgAmount.setVisible(visible);
+				break;
+		default:
+				this.errorMsgAmount.setText("Dit kan niet u heeft niet zoveel geld.");
 				this.errorMsgAmount.setVisible(visible);
 				break;
 		}
