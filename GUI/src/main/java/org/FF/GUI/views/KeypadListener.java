@@ -233,12 +233,12 @@ public class KeypadListener extends Thread{
 		
 		switch(screen) {
 		  	case FV1_1:
-			try {
-				withdrawMoney();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+		  		try {
+		  			withdrawMoney();
+		  		} catch (SQLException e1) {
+		  			// TODO Auto-generated catch block
+		  			e1.printStackTrace();
+		  		}
 				break;
 			case FL1_1:
 				
@@ -273,7 +273,8 @@ public class KeypadListener extends Thread{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-					break;
+				break;
+		
 		}					
 	}
 	
