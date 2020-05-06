@@ -1,5 +1,5 @@
 package org.FF.GUI.common;
-
+ 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class FIleupdate {
+public class FileUpdate {
 	private File customDir;
 	private File config;
 	private String[] data = {"null", "null", "null", "null", "null", "null", "null"};
 	
-	public FIleupdate() {
+	public FileUpdate() {
 		var path = System.getProperty("user.home") + File.separator + "Documents";
 		this.customDir = new File(path+=File.separator + "ATMData" );
 		this.config = new File(customDir, "config");

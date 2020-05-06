@@ -3,6 +3,8 @@ package org.FF.GUI.views;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 
+import org.FF.GUI.common.FileUpdate;
+import org.FF.GUI.common.Moneydispenser;
 import org.FF.GUI.common.SerialConnection.SerialConnection;
 
 import java.util.ArrayList;
@@ -23,16 +25,18 @@ public class KeypadListener extends Thread{
 	private SerialConnection serialConnectionBonprinter;
 	private AtomicBoolean suspend = new AtomicBoolean(true);
 	private String input = "";
+	private Moneydispenser moneydispenser;
 	
 	/**
 	 * 
 	 * @param painter {@code Painter}
 	 * @param serialConnection {@code serialConnection}
 	 */
-	public KeypadListener(Painter painter, ArrayList<SerialConnection> serialConnection) {
+	public KeypadListener(Painter painter, ArrayList<SerialConnection> serialConnection, FileUpdate file) {
 		this.painter = painter;
 		this.serialConnectionKeypad = serialConnection.get(0);
 		this.serialConnectionBonprinter = serialConnection.get(3);
+		this.moneydispenser = new Moneydispenser(file);
 	}
 	
 
@@ -157,6 +161,11 @@ public class KeypadListener extends Thread{
 							painter.setAmount(input);
 							break;
 						
+						}
+
+						if(screen == ImgBackgrounds.FK1_1) {
+							chooseBankNotes(c);
+							break;
 						}
 
 						if(screen == ImgBackgrounds.FL1_1){
@@ -291,7 +300,7 @@ public class KeypadListener extends Thread{
 	  	var d = new BigDecimal(amount);
 		if (painter.getAcount().getBalance().compareTo(d) == 1 ) {
 			painter.setAmount(Integer.toString(amount));
-			painter.switchPane(ImgBackgrounds.FB1_1);
+			painter.switchPane(ImgBackgrounds.FK1_1);
 			this.input = "";
 		} else {
 			if(painter.getAmount() != null) painter.setAmount("");
@@ -342,8 +351,6 @@ public class KeypadListener extends Thread{
 		}
 		
 		return true;
-
-		
 	}
 
 	/**
@@ -385,6 +392,39 @@ public class KeypadListener extends Thread{
 		this.imgSelectorS = imgSelectorS;
 		this.imgSelectorH = imgSelectorH;
 		this.imgSelectorG = imgSelectorG;
+	}
+	
+	/**
+	 * 
+	 * @param a
+	 */
+	public void chooseBankNotes(String a) {
+		int amount = Integer.parseInt(this.input);
+		int amountBanknotesTen, amountBanknotesTwenty, amountBanknotesFifty;
+		
+		painter.setOptionsText("10", "20", "30");
+
+		switch(a) {
+			case "1":
+				amountBanknotesTen = (amount / 10);                                                                                                                  
+				System.out.println(amountBanknotesTen);
+				break;
+		  case "2":
+				amountBanknotesTwenty = (amount / 20);
+				amountBanknotesTen = ((amount % 50) % 20);
+				System.out.println(amountBanknotesTwenty);
+				break;
+		  case "3":
+				// amount = 140  140/ 50 = 2 rest 40  40 / 20 rest 0 
+				amountBanknotesFifty = (amount / 50);
+				amountBanknotesTwenty = ((amount % 50) / 20);
+				amountBanknotesTen = ((amount % 50) % 20);
+				System.out.println(amountBanknotesFifty);
+				break;
+		  case "4":
+		  
+			  break;
+	  }
 	}
 
 	

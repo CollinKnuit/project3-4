@@ -1,5 +1,5 @@
 package org.FF.GUI.common;
-
+ 
 import java.io.IOException;
 
 public class Moneydispenser {
@@ -7,9 +7,9 @@ public class Moneydispenser {
 	private int banknotes_10 = 50; 
 	private int banknotes_20 = 50;
 	private int banknotes_50 = 50;
-	private FIleupdate config;
+	private FileUpdate config;
 	
-	public Moneydispenser(FIleupdate file) {
+	public Moneydispenser(FileUpdate file) {
 		// TODO Auto-generated constructor stub
 		this.config = file;
 	}
