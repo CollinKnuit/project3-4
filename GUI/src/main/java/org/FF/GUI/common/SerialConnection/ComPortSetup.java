@@ -28,7 +28,8 @@ public class ComPortSetup{
 	public ArrayList<SerialConnection> setupComPort() {
 		
 		
-		if(portNames.isEmpty()) {
+		if(portNames.isEmpty() || portNames.size() < 2) {
+			System.exit(0); 
 			return null;
 		}
 		
@@ -182,6 +183,7 @@ public class ComPortSetup{
 			var userInput =  scanner.nextLine();
 			try {
 				var a = Integer.parseInt(userInput);
+				if(portNames.size() < a ) continue;
 				var b = portNames.get(a);
 				return b;
 				

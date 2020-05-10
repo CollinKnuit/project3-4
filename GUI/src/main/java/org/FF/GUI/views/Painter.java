@@ -5,8 +5,9 @@ import java.sql.SQLException;
 
 import javax.swing.*;
 
-import org.FF.GUI.common.Moneydispenser;
+
 import org.FF.GUI.common.SerialConnection.SerialConnection;
+import org.FF.GUI.common.config.Moneydispenser;
 import org.FF.GUI.common.database.Acount;
 import org.FF.GUI.common.database.DatabaseQueryClass;
 

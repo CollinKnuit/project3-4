@@ -1,5 +1,5 @@
-package org.FF.GUI.common;
- 
+package org.FF.GUI.common.config;
+
 import java.io.IOException;
 
 public class Moneydispenser {
