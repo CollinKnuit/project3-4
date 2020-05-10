@@ -25,6 +25,7 @@ public class KeypadListener extends Thread{
 	private SerialConnection serialConnectionBonprinter;
 	private AtomicBoolean suspend = new AtomicBoolean(true);
 	private String input = "";
+	private int bedrag;
 	private Moneydispenser moneydispenser;
 	
 	/**
@@ -97,7 +98,7 @@ public class KeypadListener extends Thread{
 							if(imgSelectorA == ImgBackgrounds.FB1_1) {
 								input = "70";
 								try {
-									withdrawMoney();
+									withdrawMoney(screen);
 								} catch (SQLException e) {
 									e.printStackTrace();
 								}
@@ -243,7 +244,7 @@ public class KeypadListener extends Thread{
 		switch(screen) {
 		  	case FV1_1:
 		  		try {
-		  			withdrawMoney();
+		  			withdrawMoney(screen);
 		  		} catch (SQLException e1) {
 		  			// TODO Auto-generated catch block
 		  			e1.printStackTrace();
@@ -277,17 +278,19 @@ public class KeypadListener extends Thread{
 				break;
 			case FP1_1:
 				try {
-					withdrawMoney();
+					withdrawMoney(screen);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;
+		default:
+			break;
 		
 		}					
 	}
 	
-	private void withdrawMoney() throws SQLException {
+	private void withdrawMoney(ImgBackgrounds screen) throws SQLException {
 		var amount = Integer.parseInt(this.input);
 	  	
 	  	if(!checkIfLegitSum(amount)) {
@@ -300,8 +303,10 @@ public class KeypadListener extends Thread{
 	  	var d = new BigDecimal(amount);
 		if (painter.getAcount().getBalance().compareTo(d) == 1 ) {
 			painter.setAmount(Integer.toString(amount));
-			painter.switchPane(ImgBackgrounds.FK1_1);
+			bedrag = Integer.parseInt(input);
 			this.input = "";
+			painter.switchPane(ImgBackgrounds.FK1_1);
+			
 		} else {
 			if(painter.getAmount() != null) painter.setAmount("");
 			painter.setErrorMsgVisible(true, ImgBackgrounds.error, 0);
@@ -367,6 +372,38 @@ public class KeypadListener extends Thread{
 	public SerialConnection getSerialConnectionKeypad() {
 		return serialConnectionKeypad;
 	}
+	
+	/**
+	 * 
+	 * @param a
+	 */
+	public void chooseBankNotes(String a) {
+		int amountBanknotesTen, amountBanknotesTwenty, amountBanknotesFifty;
+		
+		painter.setOptionsText("10", "20", "30");
+
+		switch(a) {
+			case "1":
+				amountBanknotesTen = (bedrag / 10);                                                                                                                  
+				System.out.println(amountBanknotesTen);
+				break;
+		  case "2":
+				amountBanknotesTwenty = (bedrag / 20);
+				amountBanknotesTen = ((bedrag % 50) % 20);
+				System.out.println(amountBanknotesTwenty);
+				break;
+		  case "3":
+				// amount = 140  140/ 50 = 2 rest 40  40 / 20 rest 0 
+				amountBanknotesFifty = (bedrag / 50);
+				amountBanknotesTwenty = ((bedrag % 50) / 20);
+				amountBanknotesTen = ((bedrag % 50) % 20);
+				System.out.println(amountBanknotesFifty);
+				break;
+		  case "4":
+		  
+			  break;
+	  }
+	}
 
 
 	/**
@@ -394,38 +431,7 @@ public class KeypadListener extends Thread{
 		this.imgSelectorG = imgSelectorG;
 	}
 	
-	/**
-	 * 
-	 * @param a
-	 */
-	public void chooseBankNotes(String a) {
-		int amount = Integer.parseInt(this.input);
-		int amountBanknotesTen, amountBanknotesTwenty, amountBanknotesFifty;
-		
-		painter.setOptionsText("10", "20", "30");
-
-		switch(a) {
-			case "1":
-				amountBanknotesTen = (amount / 10);                                                                                                                  
-				System.out.println(amountBanknotesTen);
-				break;
-		  case "2":
-				amountBanknotesTwenty = (amount / 20);
-				amountBanknotesTen = ((amount % 50) % 20);
-				System.out.println(amountBanknotesTwenty);
-				break;
-		  case "3":
-				// amount = 140  140/ 50 = 2 rest 40  40 / 20 rest 0 
-				amountBanknotesFifty = (amount / 50);
-				amountBanknotesTwenty = ((amount % 50) / 20);
-				amountBanknotesTen = ((amount % 50) % 20);
-				System.out.println(amountBanknotesFifty);
-				break;
-		  case "4":
-		  
-			  break;
-	  }
-	}
+	
 
 	
 }
