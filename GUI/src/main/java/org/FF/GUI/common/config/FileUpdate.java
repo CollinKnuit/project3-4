@@ -1,4 +1,4 @@
-package org.FF.GUI.common;
+package org.FF.GUI.common.config;
 
 import java.io.File;
 import java.io.FileWriter;

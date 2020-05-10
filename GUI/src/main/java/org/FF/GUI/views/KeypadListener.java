@@ -3,8 +3,9 @@ package org.FF.GUI.views;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 
-import org.FF.GUI.common.Moneydispenser;
+
 import org.FF.GUI.common.SerialConnection.SerialConnection;
+import org.FF.GUI.common.config.Moneydispenser;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
