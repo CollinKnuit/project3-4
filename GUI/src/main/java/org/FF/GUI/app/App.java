@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.FF.GUI.common.FileUpdate;
-import org.FF.GUI.common.Moneydispenser;
+import javax.imageio.ImageIO;
+
 import org.FF.GUI.common.SerialConnection.ComPortSetup;
 import org.FF.GUI.common.SerialConnection.SerialConnection;
+import org.FF.GUI.common.config.FileUpdate;
+import org.FF.GUI.common.config.Moneydispenser;
 import org.FF.GUI.views.Painter;
 
 public class App {   
