@@ -241,7 +241,7 @@ public class Painter {
 	}
 
 	public synchronized void setAmount(String amount) {
-		if(this.amount == null)return;
+		if(this.amount == null) return;
 		this.amount.setText(amount);
 	}
 
