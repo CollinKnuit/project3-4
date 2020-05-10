@@ -1,7 +1,8 @@
 package org.FF.GUI.app;
 
 
-import org.FF.GUI.common.FIleupdate;
+import org.FF.GUI.common.FileUpdate;
+import org.FF.GUI.common.Moneydispenser;
 import org.FF.GUI.common.SerialConnection.ComPortSetup;
 import org.FF.GUI.common.SerialConnection.SerialConnection;
 import org.FF.GUI.common.database.Acount;
@@ -25,14 +26,14 @@ import javax.imageio.ImageIO;
 
 public class App {   
 	
-	private static FIleupdate file;
+	private static FileUpdate file;
 	private static ArrayList<SerialConnection> serialConnection;
 	
 	private static Painter painter;
 	
 	public static void main(String args[]) throws IOException, SQLException {  
 
-		file = new FIleupdate();
+		file = new FileUpdate();
 		var a = file.getData();
 		
 		if(a[0].contains("null") || a[1].contains("null")) {
@@ -42,14 +43,15 @@ public class App {
 			serialConnection = new ComPortSetup(a).getPorts();
 		}
 		
-		System.out.println();
+		Moneydispenser moneydispenser = new Moneydispenser(file);
+		
 		
         // create a welcome screen.
        
         EventQueue.invokeLater(new Runnable() {
     		public void run() {
     			try {
-    				painter = new Painter(serialConnection, file);
+    				painter = new Painter(serialConnection, moneydispenser);
     			} catch (Exception e) {
     				e.printStackTrace();
 					

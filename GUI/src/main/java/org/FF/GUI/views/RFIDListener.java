@@ -79,8 +79,7 @@ public class RFIDListener extends Thread{
 				try {
 					acountID = query.checkRfid(r);
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					continue;
 				}
 
 				if(acountID == -1){

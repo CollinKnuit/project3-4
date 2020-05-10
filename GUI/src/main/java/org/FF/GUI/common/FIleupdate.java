@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class FIleupdate {
+public class FileUpdate {
 	private File customDir;
 	private File config;
-	private String[] data = {"null", "null", "null", "null", "null", "null", "null"};
+	private String[] data = {"null", "null", "null", "null", "50", "50", "50"};
 	
-	public FIleupdate() {
+	public FileUpdate() {
 		var path = System.getProperty("user.home") + File.separator + "Documents";
 		this.customDir = new File(path+=File.separator + "ATMData" );
 		this.config = new File(customDir, "config");
@@ -36,6 +36,10 @@ public class FIleupdate {
 	}
 	
 	
+	/**
+	 * read from the config file
+	 * @throws IOException
+	 */
 	public void readFromConfig() throws IOException {
 		Scanner scanner = new Scanner(config);
 		
@@ -47,6 +51,10 @@ public class FIleupdate {
 		scanner.close();
 	}
 	
+	/**
+	 * updates the config file
+	 * @throws IOException
+	 */
 	public void updateFile() throws IOException {
 		
 		FileWriter fw = new FileWriter(config);

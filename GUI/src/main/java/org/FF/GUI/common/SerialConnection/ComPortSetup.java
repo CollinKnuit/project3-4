@@ -26,6 +26,8 @@ public class ComPortSetup{
 	 *
 	 */
 	public ArrayList<SerialConnection> setupComPort() {
+		
+		
 		if(portNames.isEmpty()) {
 			return null;
 		}
