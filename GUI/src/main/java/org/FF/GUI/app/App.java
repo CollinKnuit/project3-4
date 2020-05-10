@@ -29,14 +29,15 @@ public class App {
 			serialConnection = new ComPortSetup(a).getPorts();
 		}
 		
-		System.out.println();
+		Moneydispenser moneydispenser = new Moneydispenser(file);
+		
 		
         // create a welcome screen.
        
         EventQueue.invokeLater(new Runnable() {
     		public void run() {
     			try {
-    				painter = new Painter(serialConnection, file);
+    				painter = new Painter(serialConnection, moneydispenser);
     			} catch (Exception e) {
     				e.printStackTrace();
 					

@@ -3,6 +3,7 @@ package org.FF.GUI.views;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 
+import org.FF.GUI.common.Moneydispenser;
 import org.FF.GUI.common.FileUpdate;
 import org.FF.GUI.common.Moneydispenser;
 import org.FF.GUI.common.SerialConnection.SerialConnection;
@@ -25,19 +26,19 @@ public class KeypadListener extends Thread{
 	private SerialConnection serialConnectionBonprinter;
 	private AtomicBoolean suspend = new AtomicBoolean(true);
 	private String input = "";
-	private int bedrag;
 	private Moneydispenser moneydispenser;
+	private int bedrag;
 	
 	/**
 	 * 
 	 * @param painter {@code Painter}
 	 * @param serialConnection {@code serialConnection}
 	 */
-	public KeypadListener(Painter painter, ArrayList<SerialConnection> serialConnection, FileUpdate file) {
+	public KeypadListener(Painter painter, ArrayList<SerialConnection> serialConnection, Moneydispenser moneydispenser) {
 		this.painter = painter;
 		this.serialConnectionKeypad = serialConnection.get(0);
 		this.serialConnectionBonprinter = serialConnection.get(3);
-		this.moneydispenser = new Moneydispenser(file);
+		this.moneydispenser = moneydispenser;
 	}
 	
 

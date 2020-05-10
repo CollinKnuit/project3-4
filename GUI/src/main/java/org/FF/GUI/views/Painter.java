@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import javax.swing.*;
 
-import org.FF.GUI.common.FileUpdate;
+import org.FF.GUI.common.Moneydispenser;
 import org.FF.GUI.common.SerialConnection.SerialConnection;
 import org.FF.GUI.common.database.Acount;
 import org.FF.GUI.common.database.DatabaseQueryClass;
@@ -21,7 +21,7 @@ public class Painter {
 	private KeypadListener keypadSwitchScreenListener;
 	private RFIDListener fRfidListener;
 	private Acount acount;
-	private FileUpdate fileupdate;
+	private Moneydispenser moneydispenser;
 	private ImgBackgrounds currrentScreen;
 	private JTextField saldo;
 	private JTextField amount;
@@ -39,11 +39,11 @@ public class Painter {
 	 * @param serialConnection {@code SerialConnection}
 	 * @param file 
 	 */
-	public Painter(ArrayList<SerialConnection> serialConnection, FileUpdate file) {
-		this.keypadSwitchScreenListener = new KeypadListener(this, serialConnection, file); 
+	public Painter(ArrayList<SerialConnection> serialConnection, Moneydispenser moneydispenser) {
+		this.keypadSwitchScreenListener = new KeypadListener(this, serialConnection, moneydispenser); 
 		this.fRfidListener = new RFIDListener(this, serialConnection.get(1));
 		this.acount = new Acount();
-		this.fileupdate = file;
+		this.moneydispenser = moneydispenser;
 		this.f = new JFrame();
 		this.f.setBounds(0, 0, this.screensize.width, this.screensize.height);
 		this.f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

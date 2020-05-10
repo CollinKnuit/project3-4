@@ -136,13 +136,16 @@ public class DatabaseQueryClass {
 		public Acount getAcountInfo(int acountId) throws SQLException {
 		
 			var conn = connection.getConnection();
+			Acount acount = new  Acount();
+			
+			if(conn == null) return acount;
 			
 			String query 	= 	"SELECT `AcountID`, `Balance`, `RfidNumber`, Password_Atempt_Wrong  "
 				 			+	"FROM acount "
 				 			+  	"WHERE (`AcountID` = ?) "
 				 			+   "AND `Password_Atempt_Wrong` < 3;";
 			
-			Acount acount = new  Acount();
+			
 			PreparedStatement preparedStmt = null;
 			
 			try {
@@ -183,6 +186,8 @@ public class DatabaseQueryClass {
 		public void withDrawMoney(int acountId, int money) throws SQLException {
 			
 			var conn = connection.getConnection();
+			
+			if(conn == null) return;
 			
 			String query 	= 	"INSERT INTO `transaction` "
 						 	+	"(`Date`, `Amount`, `Acount_AcountID`) "
@@ -242,11 +247,13 @@ public class DatabaseQueryClass {
 		 * @throws SQLException
 		 */
 		public int checkRfid(String rfid) throws SQLException {
-
+			int acountID = -1;
 			var conn = connection.getConnection();
 			
+			if(conn == null) return acountID;
+			
 			PreparedStatement preparedStmt = null;
-			int acountID = -1;
+			
 			String query =  "SELECT AcountID " + 
 							"FROM acount " +  
 							"WHERE (RfidNumber = ?)" + 
@@ -284,6 +291,8 @@ public class DatabaseQueryClass {
 		private void setPassword_Atempt_WrongCorrect(int acountId) throws SQLException {
 			
 			var conn = connection.getConnection();
+			
+			if(conn == null) return;
 			
 			String query 	= 	"UPDATE acount  "
 						 	+	"SET Password_Atempt_Wrong = 0  "

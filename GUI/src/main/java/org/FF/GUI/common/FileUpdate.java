@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class FileUpdate {
 	private File customDir;
 	private File config;
-	private String[] data = {"null", "null", "null", "null", "null", "null", "null"};
+	private String[] data = {"null", "null", "null", "null", "50", "50", "50"};
 	
 	public FileUpdate() {
 		var path = System.getProperty("user.home") + File.separator + "Documents";
@@ -36,6 +36,10 @@ public class FileUpdate {
 	}
 	
 	
+	/**
+	 * read from the config file
+	 * @throws IOException
+	 */
 	public void readFromConfig() throws IOException {
 		Scanner scanner = new Scanner(config);
 		
@@ -47,6 +51,10 @@ public class FileUpdate {
 		scanner.close();
 	}
 	
+	/**
+	 * updates the config file
+	 * @throws IOException
+	 */
 	public void updateFile() throws IOException {
 		
 		FileWriter fw = new FileWriter(config);
