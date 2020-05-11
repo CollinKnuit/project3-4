@@ -225,10 +225,10 @@ public class DatabaseQueryClass {
 				
 				try{
 					if(conn!=null) conn.rollback();
-	
+					bool = false;
 				} catch(SQLException se2){
 					se2.printStackTrace();
-					bool = false;
+					
 				}
 			
 			} finally {
