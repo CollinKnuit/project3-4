@@ -183,11 +183,11 @@ public class DatabaseQueryClass {
 		 * @param money
 		 * @throws SQLException
 		 */
-		public void withDrawMoney(int acountId, int money) throws SQLException {
-			
+		public boolean withDrawMoney(int acountId, int money) throws SQLException {
+			var bool = false;
 			var conn = connection.getConnection();
 			
-			if(conn == null) return;
+			if(conn == null) return bool;
 			
 			String query 	= 	"INSERT INTO `transaction` "
 						 	+	"(`Date`, `Amount`, `Acount_AcountID`) "
@@ -217,7 +217,7 @@ public class DatabaseQueryClass {
 
 				conn.commit();
 				conn.setAutoCommit(true);
-				
+				bool = true;
 			
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -228,6 +228,7 @@ public class DatabaseQueryClass {
 	
 				} catch(SQLException se2){
 					se2.printStackTrace();
+					bool = false;
 				}
 			
 			} finally {
@@ -237,6 +238,7 @@ public class DatabaseQueryClass {
 			        conn.setAutoCommit(true);
 			        
 			}
+			return bool;
 		}
 		
 		/**
