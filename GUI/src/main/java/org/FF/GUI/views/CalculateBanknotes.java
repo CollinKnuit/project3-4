@@ -6,7 +6,7 @@ public class CalculateBanknotes {
 	private static int totaal10;
 	private static int totaal20;
 	private static int totaal50;
-	private static Moneydispenser moneydispenser;
+	private Moneydispenser moneydispenser;
 	private int totaal;
 	private final static int hardlimiet = 5;
 	private int rest = -1;
