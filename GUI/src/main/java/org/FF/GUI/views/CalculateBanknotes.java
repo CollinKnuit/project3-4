@@ -1,21 +1,35 @@
-package org.FF.GUI.app;
+package org.FF.GUI.views;
 
-public class TestApp {
-	
-	private final static int totaal10 = 50;
-	private final static int totaal20 = 50;
-	private final static int totaal50 = 50;
-	private final static int totaal = 150;
+import org.FF.GUI.common.config.Moneydispenser;
+
+public class CalculateBanknotes {
+	private static int totaal10;
+	private static int totaal20;
+	private static int totaal50;
+	private static Moneydispenser moneydispenser;
+	private int totaal;
 	private final static int hardlimiet = 5;
-	private static int rest = -1;
-	private static int newRest = -1;
+	private int rest = -1;
+	private int newRest = -1;
 
-	/*
-	 *  if 50 == 0 150 is maximum
+	public CalculateBanknotes(Moneydispenser moneydispenser) {
+		this.moneydispenser = moneydispenser;
+	}
+	
+
+	/**
+	 * 
+	 * @param totaal
+	 * @param option
+	 * @return
 	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		int option = 2; 
+	public int[] calculateBanknotesTotaal(int totaal, int option) {
+		// TODO Auto-generated method stub;
+		totaal10 = moneydispenser.getBanknotes_10();
+		totaal20 = moneydispenser.getBanknotes_20();
+		totaal50 = moneydispenser.getBanknotes_50();
+		
+		this.totaal = totaal;
 		int array[] = { 0, 0, 0 };
 
 		int limiet1 = totaal / 10;
@@ -37,7 +51,7 @@ public class TestApp {
 			limiet3 = totaal50;
 
 		if (totaal > (limiet1 * 10 + limiet2 * 20 + limiet3 * 50))
-			return;
+			return null;
 
 		rest = -1;
 		newRest = -1;
@@ -64,11 +78,19 @@ public class TestApp {
 			}
 		}
 		
-		System.out.println(array);
+		return array;
 
 	}
 	
-	private static int[] mostlyBankNotes50(int array[], int limiet1, int limiet2, int limiet3) {
+	/**
+	 * 
+	 * @param array
+	 * @param limiet1
+	 * @param limiet2
+	 * @param limiet3
+	 * @return
+	 */
+	private int[] mostlyBankNotes50(int array[], int limiet1, int limiet2, int limiet3) {
 		rest = totaal - limiet3 * 50;
 		array[2] = limiet3;
 		if (rest == 0) {
@@ -127,8 +149,15 @@ public class TestApp {
 		return null;
 	}
 	
-	
-	private static int[] mostlyBankNotes20(int array[], int limiet1, int limiet2, int limiet3) {
+	/**
+	 * 
+	 * @param array
+	 * @param limiet1
+	 * @param limiet2
+	 * @param limiet3
+	 * @return
+	 */
+	private  int[] mostlyBankNotes20(int array[], int limiet1, int limiet2, int limiet3) {
 		rest = totaal - limiet2 * 20;
 		array[1] = limiet2;
 		if (rest == 0) {
@@ -264,8 +293,15 @@ public class TestApp {
 		return null;
 	}
 	
-	
-	private static int[] mostlyBankNotes10(int array[], int limiet1, int limiet2, int limiet3) {
+	/**
+	 * 
+	 * @param array
+	 * @param limiet1
+	 * @param limiet2
+	 * @param limiet3
+	 * @return
+	 */
+	private int[] mostlyBankNotes10(int array[], int limiet1, int limiet2, int limiet3) {
 		rest = totaal - limiet1 * 10;
 		array[0] = limiet1;
 		if (rest == 0) {
@@ -389,6 +425,13 @@ public class TestApp {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param a
+	 * @param b
+	 * @param c
+	 * @return
+	 */
 	private static int biggestNumber(int a, int b, int c) {
 		if (a > b && a > c) {
 			return 10;
@@ -402,5 +445,4 @@ public class TestApp {
 		return -1; 
 		
 	}
-
 }

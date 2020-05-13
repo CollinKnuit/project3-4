@@ -26,6 +26,7 @@ public class KeypadListener extends Thread{
 	private AtomicBoolean suspend = new AtomicBoolean(true);
 	private String input = "";
 	private Moneydispenser moneydispenser;
+	private CalculateBanknotes calc;
 	private int bedrag;
 	
 	/**
@@ -38,6 +39,7 @@ public class KeypadListener extends Thread{
 		this.serialConnectionKeypad = serialConnection.get(0);
 		this.serialConnectionBonprinter = serialConnection.get(3);
 		this.moneydispenser = moneydispenser;
+		this.calc = new CalculateBanknotes(moneydispenser);
 	}
 	
 
@@ -378,31 +380,7 @@ public class KeypadListener extends Thread{
 	 * @param a
 	 */
 	public void chooseBankNotes(String a) {
-		int amountBanknotesTen, amountBanknotesTwenty, amountBanknotesFifty;
-		
-		painter.setOptionsText("10", "20", "30");
-
-		switch(a) {
-			case "1":
-				amountBanknotesTen = (bedrag / 10);                                                                                                                  
-				System.out.println(amountBanknotesTen);
-				break;
-		  case "2":
-				amountBanknotesTwenty = (bedrag / 20);
-				amountBanknotesTen = ((bedrag % 50) % 20);
-				System.out.println(amountBanknotesTwenty);
-				break;
-		  case "3":
-				// amount = 140  140/ 50 = 2 rest 40  40 / 20 rest 0 
-				amountBanknotesFifty = (bedrag / 50);
-				amountBanknotesTwenty = ((bedrag % 50) / 20);
-				amountBanknotesTen = ((bedrag % 50) % 20);
-				System.out.println(amountBanknotesFifty);
-				break;
-		  case "4":
-		  
-			  break;
-	  }
+		int array[] = calc.calculateBanknotesTotaal(bedrag, Integer.parseInt(a));
 	}
 
 

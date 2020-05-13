@@ -80,5 +80,13 @@ public class Moneydispenser {
 	public int getBanknotes_20() {
 		return banknotes_20;
 	}
+
+	public int getBanknotes_50() {
+		return banknotes_50;
+	}
+	
+	
+	
+	
 	
 }
