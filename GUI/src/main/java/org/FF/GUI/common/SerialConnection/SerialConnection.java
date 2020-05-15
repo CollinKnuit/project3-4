@@ -76,6 +76,7 @@ public class SerialConnection {
 	 * @throws NullPointerException
 	 */
 	public void sendData(String buffer) throws NullPointerException {
+		
 		serialPort.writeBytes(buffer.getBytes(), buffer.length());
 	}
 	
@@ -110,6 +111,7 @@ public class SerialConnection {
 					if (bytesAvailable <= 0) {
 						continue;
 					}
+					
 					synchronized (waitingQueue) {
 						var newData = new byte[serialPort.bytesAvailable()];
 						if (newData.length == serialPort.readBytes(newData, newData.length)) {
