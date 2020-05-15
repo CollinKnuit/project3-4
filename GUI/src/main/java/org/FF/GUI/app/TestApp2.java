@@ -46,6 +46,19 @@ public class TestApp2 {
 		System.out.println("test5");
 		c.sendData("halo");
 		////////////////////////////////////////////////
+		
+		Thread.sleep(2000);
+		
+		
+		
+		
+
+		c.sendData("12345");
+		
+
+		
+		
+		////////////////////////////////////////////////
 	}
 
 	
