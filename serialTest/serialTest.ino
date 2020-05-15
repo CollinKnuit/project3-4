@@ -2,6 +2,10 @@ int incomingByte = 0; // for incoming serial data
 String readString, servo1, servo2;
 void setup() {
   Serial.begin(9600); // opens serial port, sets data rate to 9600 bps
+
+  while(!Serial) {
+    ;
+  }
 }
 
 void loop() {
@@ -13,9 +17,7 @@ void loop() {
    }
  }
 
- if (readString.length() >0) {
-     Serial.println(readString); //see what was received
-     
+ if (readString.length() >0) {     
      // expect a string like 07002100 containing the two servo positions      
      servo1 = readString.substring(0, 2); //get the first four characters
      servo2 = readString.substring(2, 4); //get the next four characters
@@ -32,8 +34,5 @@ void loop() {
      }else{
       digitalWrite(9,LOW);
      }
-     readString = "";
-     servo1 = "";
-     servo2 = "";
   }
 }

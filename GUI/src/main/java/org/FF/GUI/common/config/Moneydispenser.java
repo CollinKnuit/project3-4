@@ -65,6 +65,47 @@ public class Moneydispenser {
 		return true;
 	}
 	
+	public boolean[] availableOptions(int money) {
+		boolean[] availableOptions = {false,false,false};
+		
+		if(banknotes_10 >= 5 && banknotes_20 >= 5 && banknotes_50 >= 5) {
+			availableOptions[0] = true;
+			if(money >= 20) {
+				availableOptions[1] = true;
+			}
+			if(money >= 50) {
+				availableOptions[2] = true;
+			}
+			
+			return availableOptions;
+		}
+		
+		if(banknotes_10 >= 5 && banknotes_50 >= 4) {
+			availableOptions[0] = true;
+		}
+		
+		if(banknotes_10 >= 1 && banknotes_20 >= 5 && banknotes_50 >= 3 && money >= 20) {
+			availableOptions[1] = true;
+		}
+		
+		if(banknotes_10 >= 4 && banknotes_50 >= 5 && money >= 50) {
+			availableOptions[2] = true;
+		}
+		
+		if(banknotes_10 >= 1 && banknotes_20 >= 2 && banknotes_50 >= 5 && money >= 50) {
+			availableOptions[2] = true;
+		}
+		
+		if(banknotes_10 >= 5 && banknotes_20 >= 5 && banknotes_50 >= 2) {
+			availableOptions[0] = true;
+			if(money >= 20) {
+				availableOptions[1] = true;
+			}
+		}
+		
+		return availableOptions;
+	}
+	
 	public void updateConfig() throws IOException {
 		config.updateFile();
 	}

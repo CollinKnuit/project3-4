@@ -312,7 +312,8 @@ public class KeypadListener extends Thread{
 	  	}
 	
 	  	var d = new BigDecimal(amount);
-		if (painter.getAcount().getBalance().compareTo(d) == 1 ) {
+	  	var  e = painter.getAcount().getBalance().compareTo(d);
+		if (e == 1 || e == 0 ) {
 			painter.setAmount(Integer.toString(amount));
 			bedrag = Integer.parseInt(input);
 			this.input = "";
@@ -361,6 +362,8 @@ public class KeypadListener extends Thread{
 	 * @return
 	 */
 	private synchronized Boolean checkIfLegitSum(int amount) {
+		if(amount > 250 || amount == 0) return false;
+		
 		int remainder = Math.abs(amount % 10);
 		if(remainder != 0) {
 			return false;
@@ -384,6 +387,8 @@ public class KeypadListener extends Thread{
 		return serialConnectionKeypad;
 	}
 	
+	
+		
 	/**
 	 * 
 	 * @param a
@@ -398,7 +403,6 @@ public class KeypadListener extends Thread{
 		int array[] = calc.calculateBanknotesTotaal(bedrag, Integer.parseInt(a), previusBanknotes10, 
 													previusBanknotes20, previusBanknotes50);
 		
-
 		if(!painter.getQuery().withDrawMoney(painter.getAcountID(), bedrag)) {
 				//TODO go to homescreen deltea all data
 				
@@ -414,6 +418,10 @@ public class KeypadListener extends Thread{
 		//TODO dispense money
 		
 		painter.switchPane(ImgBackgrounds.FB1_1);
+	}
+	
+	public int getBedrag() {
+		return bedrag;
 	}
 
 

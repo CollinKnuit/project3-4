@@ -86,7 +86,6 @@ public class Painter {
 		switch(img) {
 		 	case FB1_1:
 				//DONE	
-		 		
 				keypadSwitchScreenListener.setImgSelectors(null, null, null, null, ImgBackgrounds.FW1_1, ImgBackgrounds.FW1_1, null);
 				
 		 		break;
@@ -185,32 +184,34 @@ public class Painter {
 				
 				break;
 			case FK1_1:
-
+				
+				boolean[] optionAvailable = moneydispenser.availableOptions(keypadSwitchScreenListener.getBedrag());
+				
 				this.banknotesTenOption = new JLabel();
-				//this.banknotesTenOption.setText("kies zoveel mogelijk 10 ofzo (1)");
+				this.banknotesTenOption.setText("kies zoveel mogelijk 10 ofzo (1)");
 				this.banknotesTenOption.setBounds(350, 800, 660, 45);
 				this.banknotesTenOption.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
 				this.banknotesTenOption.setForeground(Color.black);
 				this.banknotesTenOption.setBackground(Color.decode("#FF0000"));
-				this.banknotesTenOption.setVisible(true);
+				this.banknotesTenOption.setVisible(optionAvailable[0]);
 				this.banknotesTenOption.setOpaque(true);
 
 				this.banknotesTwentyOption = new JLabel();
-				//this.banknotesTwentyOption.setText("kies zoveel mogelijk 20 ofzo (2)");
+				this.banknotesTwentyOption.setText("kies zoveel mogelijk 20 ofzo (2)");
 				this.banknotesTwentyOption.setBounds(350, 870, 660, 45);
 				this.banknotesTwentyOption.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
 				this.banknotesTwentyOption.setForeground(Color.black);
 				this.banknotesTwentyOption.setBackground(Color.decode("#FF0000"));
-				this.banknotesTwentyOption.setVisible(true);
+				this.banknotesTwentyOption.setVisible(optionAvailable[1]);
 				this.banknotesTwentyOption.setOpaque(true);
 
 				this.banknotesFiftyOption = new JLabel();
-				//this.banknotesFiftyOption.setText("kies zoveel mogelijk 50 ofzo (3)");
+				this.banknotesFiftyOption.setText("kies zoveel mogelijk 50 ofzo (3)");
 				this.banknotesFiftyOption.setBounds(350, 940, 660, 45);
 				this.banknotesFiftyOption.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
 				this.banknotesFiftyOption.setForeground(Color.black);
 				this.banknotesFiftyOption.setBackground(Color.decode("#FF0000"));
-				this.banknotesFiftyOption.setVisible(true);
+				this.banknotesFiftyOption.setVisible(optionAvailable[2]);
 				this.banknotesFiftyOption.setOpaque(true);
 				
 				p2.add(this.banknotesTenOption, JLayeredPane.POPUP_LAYER);
@@ -218,9 +219,7 @@ public class Painter {
 				p2.add(this.banknotesFiftyOption, JLayeredPane.POPUP_LAYER);
 				
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FH1_1, null, null, ImgBackgrounds.FW1_1, null, ImgBackgrounds.FB1_1, null);
-				break;
-
-				
+				break;				
 		}
 		
 		
@@ -299,18 +298,5 @@ public class Painter {
 				break;
 		}
 	}
-
-
-	public synchronized void setOptionsText(String amountBanknotesTen, String amountBanknotesTwenty, String amountBanknotesFifty) {
-		this.banknotesTenOption.setText(amountBanknotesTen + " briefjes van 10");
-		this.banknotesTwentyOption.setText(amountBanknotesTwenty + " briefjes van 20");
-		this.banknotesFiftyOption.setText(amountBanknotesFifty + " briefjes van 50");
-
-		this.banknotesTenOption.setVisible(true);
-		this.banknotesTwentyOption.setVisible(true);
-		this.banknotesFiftyOption.setVisible(true);
-	}
-
-
 
 }
