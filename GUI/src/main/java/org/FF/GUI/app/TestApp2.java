@@ -15,7 +15,7 @@ public class TestApp2 {
 	private static Scanner scanner = new Scanner(System.in);
 	private static ArrayList<String> portnames;
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InterruptedException {
 		portnames = getAllPortNames();
 		
 		for(int i = 0 ; portnames.size() > i ; i++ ) {
