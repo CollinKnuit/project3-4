@@ -409,9 +409,9 @@ public class KeypadListener extends Thread{
 				return;
 		}
 	
-		moneydispenser.updateBanknotes_10(previusBanknotes10-array[0]);			
-		moneydispenser.updateBanknotes_20(previusBanknotes20-array[1]);
-		moneydispenser.updateBanknotes_50(previusBanknotes50-array[2]);
+		moneydispenser.updateBanknotes_10(array[0]);			
+		moneydispenser.updateBanknotes_20(array[1]);
+		moneydispenser.updateBanknotes_50(array[2]);
 		
 		moneydispenser.updateConfig();
 		
