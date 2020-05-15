@@ -25,21 +25,26 @@ public class TestApp2 {
 		String a = portComToUse();
 		
 		var c = new SerialConnection(a, 9600);
+		System.out.println(c);
 		c.openPort();
+		System.out.println("test2");
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("test");
+		c.sendData("sake");
 		
-		// do shit in here 
-		////////////////////////////////////////////////
-		
-		
-		
-		
-		c.sendData("fawe");
-		
-		
-		
-		
-		
-		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("test5");
+		c.sendData("halo");
 		////////////////////////////////////////////////
 	}
 
