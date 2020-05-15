@@ -1,11 +1,13 @@
 package org.FF.GUI.views;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 
 
 import org.FF.GUI.common.SerialConnection.SerialConnection;
 import org.FF.GUI.common.config.Moneydispenser;
+import org.FF.GUI.common.database.DatabaseQueryClass;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -39,7 +41,7 @@ public class KeypadListener extends Thread{
 		this.serialConnectionKeypad = serialConnection.get(0);
 		this.serialConnectionBonprinter = serialConnection.get(3);
 		this.moneydispenser = moneydispenser;
-		this.calc = new CalculateBanknotes(moneydispenser);
+		this.calc = new CalculateBanknotes();
 	}
 	
 
@@ -167,7 +169,14 @@ public class KeypadListener extends Thread{
 						}
 
 						if(screen == ImgBackgrounds.FK1_1) {
-							chooseBankNotes(c);
+							
+							try {
+								chooseBankNotes(c);
+							} catch (SQLException | IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
 							break;
 						}
 
@@ -378,9 +387,33 @@ public class KeypadListener extends Thread{
 	/**
 	 * 
 	 * @param a
+	 * @throws SQLException 
+	 * @throws IOException 
 	 */
-	public void chooseBankNotes(String a) {
-		int array[] = calc.calculateBanknotesTotaal(bedrag, Integer.parseInt(a));
+	public void chooseBankNotes(String a) throws SQLException, IOException {
+		int previusBanknotes10 = moneydispenser.getBanknotes_10();
+		int previusBanknotes20 = moneydispenser.getBanknotes_20();
+		int previusBanknotes50 = moneydispenser.getBanknotes_50();
+		
+		int array[] = calc.calculateBanknotesTotaal(bedrag, Integer.parseInt(a), previusBanknotes10, 
+													previusBanknotes20, previusBanknotes50);
+		
+
+		if(!painter.getQuery().withDrawMoney(painter.getAcountID(), bedrag)) {
+				//TODO go to homescreen deltea all data
+				
+				return;
+		}
+	
+		moneydispenser.updateBanknotes_10(previusBanknotes10-array[0]);			
+		moneydispenser.updateBanknotes_20(previusBanknotes20-array[1]);
+		moneydispenser.updateBanknotes_50(previusBanknotes50-array[2]);
+		
+		moneydispenser.updateConfig();
+		
+		//TODO dispense money
+		
+		painter.switchPane(ImgBackgrounds.FB1_1);
 	}
 
 

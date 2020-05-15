@@ -1,21 +1,15 @@
 package org.FF.GUI.views;
 
-import org.FF.GUI.common.config.Moneydispenser;
 
 public class CalculateBanknotes {
 	private static int totaal10;
 	private static int totaal20;
 	private static int totaal50;
-	private Moneydispenser moneydispenser;
 	private int totaal;
 	private final static int hardlimiet = 5;
 	private int rest = -1;
 	private int newRest = -1;
 
-	public CalculateBanknotes(Moneydispenser moneydispenser) {
-		this.moneydispenser = moneydispenser;
-	}
-	
 
 	/**
 	 * 
@@ -23,11 +17,11 @@ public class CalculateBanknotes {
 	 * @param option
 	 * @return
 	 */
-	public int[] calculateBanknotesTotaal(int totaal, int option) {
+	public int[] calculateBanknotesTotaal(int totaal, int option, int bankNotes_10, int bankNotes_20, int bankNotes_50) {
 		// TODO Auto-generated method stub;
-		totaal10 = moneydispenser.getBanknotes_10();
-		totaal20 = moneydispenser.getBanknotes_20();
-		totaal50 = moneydispenser.getBanknotes_50();
+		totaal10 = bankNotes_10;
+		totaal20 = bankNotes_20;
+		totaal50 = bankNotes_50;
 		
 		this.totaal = totaal;
 		int array[] = { 0, 0, 0 };
@@ -445,4 +439,5 @@ public class CalculateBanknotes {
 		return -1; 
 		
 	}
+	
 }
