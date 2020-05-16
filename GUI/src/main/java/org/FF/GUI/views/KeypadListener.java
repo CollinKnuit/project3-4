@@ -377,8 +377,6 @@ public class KeypadListener extends Thread{
 	 * @param input
 	 */
 	private void printBon(int input){
-		//serialConnectionBonprinter.sendData("1");
-		//serialConnectionBonprinter.sendData(Integer.toString(amountOutput));
 		painter.switchPane(imgSelectorS);	
 	}
 	

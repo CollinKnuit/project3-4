@@ -12,7 +12,7 @@ import org.FF.GUI.common.SerialConnection.SerialConnection;
 import org.FF.GUI.common.config.FileUpdate;
 import org.FF.GUI.common.config.Moneydispenser;
 import org.FF.GUI.views.Painter;
-
+			
 public class App {   
 	
 	private static FileUpdate file;
@@ -47,7 +47,6 @@ public class App {
     			}
     		}
     	});
-	
 
        }
         
