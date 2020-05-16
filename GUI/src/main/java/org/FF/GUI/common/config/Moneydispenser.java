@@ -66,16 +66,19 @@ public class Moneydispenser {
 	}
 	
 	public boolean[] availableOptions(int money) {
-		boolean[] availableOptions = {false,false,false};
+		boolean[] availableOptions = {false,false,false,false};
 		
 		if(banknotes_10 >= 5 && banknotes_20 >= 5 && banknotes_50 >= 5) {
 			availableOptions[0] = true;
+			availableOptions[3] = true;
 			if(money >= 20) {
 				availableOptions[1] = true;
 			}
 			if(money >= 50) {
 				availableOptions[2] = true;
 			}
+			
+			
 			
 			return availableOptions;
 		}
@@ -101,6 +104,10 @@ public class Moneydispenser {
 			if(money >= 20) {
 				availableOptions[1] = true;
 			}
+		}
+		
+		if(availableOptions[0] == true || availableOptions[1] == true || availableOptions[2] == true) {
+			availableOptions[3] = true;
 		}
 		
 		return availableOptions;

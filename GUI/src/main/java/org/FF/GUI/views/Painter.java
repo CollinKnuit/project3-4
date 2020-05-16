@@ -30,9 +30,7 @@ public class Painter {
 	private JLabel errorMsgAmount;
 	private JLabel errorMsgLogin;
 	private int acountID;
-	private JLabel banknotesTenOption;
-	private JLabel banknotesTwentyOption;
-	private JLabel banknotesFiftyOption;
+	private JLabel banknotesTenOption, banknotesTwentyOption, banknotesFiftyOption, banknotesOptionFour;
 	
 	/**
 	 * Sets up the begin frame and the keypadListener
@@ -187,36 +185,42 @@ public class Painter {
 				
 				boolean[] optionAvailable = moneydispenser.availableOptions(keypadSwitchScreenListener.getBedrag());
 				
-				this.banknotesTenOption = new JLabel();
-				this.banknotesTenOption.setText("kies zoveel mogelijk 10 ofzo (1)");
-				this.banknotesTenOption.setBounds(350, 800, 660, 45);
+				this.banknotesTenOption = new JLabel("kies zoveel mogelijk 10 ofzo (1)", SwingConstants.CENTER);
+				this.banknotesTenOption.setBounds(225, 675, 660, 145);
 				this.banknotesTenOption.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
-				this.banknotesTenOption.setForeground(Color.black);
+				this.banknotesTenOption.setForeground(Color.white);
 				this.banknotesTenOption.setBackground(Color.decode("#FF0000"));
 				this.banknotesTenOption.setVisible(optionAvailable[0]);
 				this.banknotesTenOption.setOpaque(true);
 
-				this.banknotesTwentyOption = new JLabel();
-				this.banknotesTwentyOption.setText("kies zoveel mogelijk 20 ofzo (2)");
-				this.banknotesTwentyOption.setBounds(350, 870, 660, 45);
+				this.banknotesTwentyOption = new JLabel("kies zoveel mogelijk 20 ofzo (2)", SwingConstants.CENTER);
+				this.banknotesTwentyOption.setBounds(910, 675, 660, 145);
 				this.banknotesTwentyOption.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
-				this.banknotesTwentyOption.setForeground(Color.black);
+				this.banknotesTwentyOption.setForeground(Color.white);
 				this.banknotesTwentyOption.setBackground(Color.decode("#FF0000"));
 				this.banknotesTwentyOption.setVisible(optionAvailable[1]);
 				this.banknotesTwentyOption.setOpaque(true);
 
-				this.banknotesFiftyOption = new JLabel();
-				this.banknotesFiftyOption.setText("kies zoveel mogelijk 50 ofzo (3)");
-				this.banknotesFiftyOption.setBounds(350, 940, 660, 45);
+				this.banknotesFiftyOption = new JLabel("kies zoveel mogelijk 50 ofzo (3)", SwingConstants.CENTER);
+				this.banknotesFiftyOption.setBounds(225, 850, 660, 145);
 				this.banknotesFiftyOption.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
-				this.banknotesFiftyOption.setForeground(Color.black);
+				this.banknotesFiftyOption.setForeground(Color.white);
 				this.banknotesFiftyOption.setBackground(Color.decode("#FF0000"));
 				this.banknotesFiftyOption.setVisible(optionAvailable[2]);
 				this.banknotesFiftyOption.setOpaque(true);
 				
+				this.banknotesOptionFour = new JLabel("er wordt een keuze gemaakt (4)", SwingConstants.CENTER);
+				this.banknotesOptionFour.setBounds(910, 850, 660, 145);
+				this.banknotesOptionFour.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
+				this.banknotesOptionFour.setForeground(Color.white);
+				this.banknotesOptionFour.setBackground(Color.decode("#FF0000"));
+				this.banknotesOptionFour.setVisible(optionAvailable[3]);
+				this.banknotesOptionFour.setOpaque(true);
+				
 				p2.add(this.banknotesTenOption, JLayeredPane.POPUP_LAYER);
 				p2.add(this.banknotesTwentyOption, JLayeredPane.POPUP_LAYER);
 				p2.add(this.banknotesFiftyOption, JLayeredPane.POPUP_LAYER);
+				p2.add(this.banknotesOptionFour, JLayeredPane.POPUP_LAYER);
 				
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FH1_1, null, null, ImgBackgrounds.FW1_1, null, ImgBackgrounds.FB1_1, null);
 				break;				
