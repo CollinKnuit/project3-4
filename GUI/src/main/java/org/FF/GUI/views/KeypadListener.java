@@ -29,6 +29,7 @@ public class KeypadListener extends Thread{
 	private Painter painter;
 	private SerialConnection serialConnectionKeypad;
 	private SerialConnection serialConnectionBonprinter;
+	private SerialConnection serialConnectionDispenser;
 	private AtomicBoolean suspend = new AtomicBoolean(true);
 	private String input = "";
 	private Moneydispenser moneydispenser;
@@ -45,6 +46,7 @@ public class KeypadListener extends Thread{
 	public KeypadListener(Painter painter, ArrayList<SerialConnection> serialConnection, Moneydispenser moneydispenser) {
 		this.painter = painter;
 		this.serialConnectionKeypad = serialConnection.get(0);
+		this.serialConnectionDispenser = serialConnection.get(2);
 		this.serialConnectionBonprinter = serialConnection.get(3);
 		this.moneydispenser = moneydispenser;
 		this.calc = new CalculateBanknotes();
@@ -429,6 +431,9 @@ public class KeypadListener extends Thread{
 		moneydispenser.updateConfig();
 		
 		//TODO dispense money
+		String amountOfBanknotes = Integer.toString(array[0]) + Integer.toString(array[1]) + Integer.toString(array[2]);
+		System.out.println(amountOfBanknotes);
+		serialConnectionDispenser.sendData(amountOfBanknotes);
 		
 		painter.switchPane(ImgBackgrounds.FB1_1);
 	}
