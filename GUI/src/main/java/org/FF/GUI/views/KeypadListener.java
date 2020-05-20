@@ -3,13 +3,17 @@ package org.FF.GUI.views;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
-
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime;   
 
 import org.FF.GUI.common.SerialConnection.SerialConnection;
 import org.FF.GUI.common.config.Moneydispenser;
+import org.FF.GUI.common.database.Acount;
 import org.FF.GUI.common.database.DatabaseQueryClass;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class KeypadListener extends Thread{
@@ -30,6 +34,8 @@ public class KeypadListener extends Thread{
 	private Moneydispenser moneydispenser;
 	private CalculateBanknotes calc;
 	private int bedrag;
+	private Acount acount;
+	private static int transactionNumber = 999;
 	
 	/**
 	 * 
@@ -136,7 +142,7 @@ public class KeypadListener extends Thread{
 					case "*":
 			  		
 			  	  		if(screen ==  ImgBackgrounds.FB1_1) {
-			  	  			printBon(70);	
+			  	  			painter.switchPane(imgSelectorS);	
 			  	  		} 
 			  	  		else{
 			  	  			backspace(screen);
@@ -146,7 +152,7 @@ public class KeypadListener extends Thread{
 				  	
 					case "#":
 						if(screen == ImgBackgrounds.FB1_1){
-							painter.switchPane(imgSelectorH);
+							printBon(bedrag);
 						} 
 						else {
 							enter(screen);
@@ -368,7 +374,7 @@ public class KeypadListener extends Thread{
 		if(remainder != 0) {
 			return false;
 		}
-		
+		 
 		return true;
 	}
 
@@ -377,7 +383,16 @@ public class KeypadListener extends Thread{
 	 * @param input
 	 */
 	private void printBon(int input){
-		painter.switchPane(imgSelectorS);	
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+    	Date date = new Date();  
+    	System.out.println(formatter.format(date)); 
+		String pinAmount = Integer.toString(input);
+		String rfidNumber = painter.getAcount().getRfidNumber();
+		String transactionNumber = Integer.toString(++this.transactionNumber);
+		String dateSent = formatter.format(date);		
+		 this.serialConnectionBonprinter.sendData(pinAmount + rfidNumber + transactionNumber + dateSent);
+		painter.switchPane(imgSelectorH);
+
 	}
 	
 	
@@ -430,8 +445,8 @@ public class KeypadListener extends Thread{
 	 * @param imgSelectorB	is button B	{@code ImgBackgrounds}
 	 * @param imgSelectorC	is button C {@code ImgBackgrounds}
 	 * @param imgSelectorD	is button D	{@code ImgBackgrounds}
-     * @param imgSelectorS	is button D	{@code ImgBackgrounds}
-	 * @param imgSelectorH	is button H	{@code ImgBackgrounds}
+     * @param imgSelectorS	is button star {@code ImgBackgrounds}
+	 * @param imgSelectorH	is button hashtag {@code ImgBackgrounds}
 	 * @param imgSelectorG is button 1, 2, 3 or 4 {@code ImgBackgrounds}
 	 */	
 	public synchronized void setImgSelectors(ImgBackgrounds imgSelectorA, ImgBackgrounds imgSelectorB, 

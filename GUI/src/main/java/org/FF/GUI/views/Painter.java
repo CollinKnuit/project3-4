@@ -145,7 +145,7 @@ public class Painter {
 				this.errorMsgAmount.setBackground(Color.decode("#CCCCCC"));
 				this.errorMsgAmount.setVisible(false);
 				this.errorMsgAmount.setOpaque(true);
-		 		
+		 		 
 				p2.add(errorMsgAmount, JLayeredPane.POPUP_LAYER);
 				
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FH1_1, ImgBackgrounds.FV1_1, null, ImgBackgrounds.FW1_1, null, null, ImgBackgrounds.FB1_1);
