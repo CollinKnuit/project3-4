@@ -1,14 +1,14 @@
-#include "Adafruit_Thermal.h"
+//#include "Adafruit_Thermal.h"
 #include "SoftwareSerial.h"
 #define TX_PIN 6
 #define RX_PIN 5
 SoftwareSerial mySerial(RX_PIN, TX_PIN);
-Adafruit_Thermal printer(&mySerial);
+//Adafruit_Thermal printer(&mySerial);
 
 // pins for the LEDs:
 const int redPin = 13;
 const byte size = 30;
-String ar[size];
+char ar[size];
 String bedrag;
 String rekeningNummer;
 String transactieNummer;
@@ -27,37 +27,32 @@ void setup() {
 
 void loop() {
   // if there's any serial available, read it:
-  if (Serial.available() > 0) {
-    for (int index = 0; index < size; index++) {
-       //turn the pin on:
-    }
+  if (Serial.available() > 29) {
+    Serial.readBytes(ar, 30);
     bedrag = "";
     rekeningNummer = "";
     transactieNummer = "";
     date = "";
-    time1 = "";
 
     int i = 0;
     for (i = 0; i < 3; i++) {
-      if (ar[i] != ' ') {
-        bedrag += ar[i];
-      }
+       bedrag += ar[i];
     }
     for (i = 3; i < 7; i++) {
       rekeningNummer += ar[i];
     }
-    for (i = 7; i < 17; i++) {
+    for (i = 7; i < 11; i++) {
       transactieNummer += ar[i];
     }
-    for (i = 17; i < 22; i++) {
+    for (i = 11; i < 30; i++) {
       date += ar[i];
     }
-    for (i = 22; i < 26; i++) {
-      time1 += ar[i];
-    }
 
-
-    digitalWrite(13, HIGH);
+    Serial.println(date);
+    Serial.println(rekeningNummer);
+    Serial.println(transactieNummer);
+    Serial.println(bedrag);
+    
     //    printer.justify('C');
     //    printer.setSize('L');
     //    printer.println(F("Flasche Flocken"));
@@ -77,8 +72,6 @@ void loop() {
     //    printer.justify('C');
     //    printer.println(date);
     //    printer.println(time1);
-    Serial.println(date);
-    Serial.println(time1);
 
     //    printer.justify('C');
     //    printer.println(F("----------------------------"));
@@ -87,7 +80,6 @@ void loop() {
     //    printer.justify('C');
     //    //printer.println(ar[7] + ar[8] + ar[9] + ar[10]);
     //    printer.println(transactieNummer);
-    Serial.println(transactieNummer);
 
     //    printer.justify('C');
     //    printer.println(F("----------------------------"));
@@ -97,7 +89,7 @@ void loop() {
     //    printer.print("**********");
     //printer.println(ar[3] + ar[4] + ar[5] + ar[6]);
     //printer.println(rekeningNummer);
-    Serial.println(rekeningNummer);
+
 
     //    printer.justify('C');
     //    printer.println(F("----------------------------"));
@@ -106,7 +98,7 @@ void loop() {
     //    printer.justify('C');
     //printer.print(ar[0] + ar[1] + ar[2]);
     //printer.println(bedrag);
-    Serial.println(bedrag);
+
     //    printer.println(" Euro");
   }
 }
