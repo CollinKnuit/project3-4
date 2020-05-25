@@ -169,7 +169,7 @@ public class CalculateBanknotes {
 
 				switch (rest) {
 				
-				case 10: // have at least [1,0,0] or [0,0,4] yup me
+				case 10: // have at least [1,0,0] or [0,0,4] 
 					if(limiet1 > 0) {
 						array[0] += 1;
 					}else if(totaal50 >= 6) {

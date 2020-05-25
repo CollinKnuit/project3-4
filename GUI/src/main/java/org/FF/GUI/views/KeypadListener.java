@@ -277,7 +277,7 @@ public class KeypadListener extends Thread{
 					
 					if(hashmap.containsKey(false)) {
 						int attempts_wrong = hashmap.values().stream().findFirst().get();
-						painter.setErrorMsgVisible(true, screen, attempts_wrong);
+						painter.setErrorMsgVisible(true, screen, attempts_wrong, false);
 						if(attempts_wrong == 3) {
 							Thread.sleep(5000);
 							painter.switchPane(ImgBackgrounds.FW1_1);
@@ -313,9 +313,13 @@ public class KeypadListener extends Thread{
 		var amount = Integer.parseInt(this.input);
 	  	
 	  	if(!checkIfLegitSum(amount)) {
+	  		if(amount > 250 || amount == 0) { 
+	  			painter.setErrorMsgVisible(true, ImgBackgrounds.FV1_1, 0, true);
+	  		}else {
+	  			painter.setErrorMsgVisible(true, ImgBackgrounds.FV1_1, 0, false);
+	  		}
 	  		this.input = "";
 	  		painter.setAmount("");
-	  		painter.setErrorMsgVisible(true, ImgBackgrounds.FV1_1, 0);
 	  		return;
 	  	}
 	
@@ -329,7 +333,7 @@ public class KeypadListener extends Thread{
 			
 		} else {
 			if(painter.getAmount() != null) painter.setAmount("");
-			painter.setErrorMsgVisible(true, ImgBackgrounds.error, 0);
+			painter.setErrorMsgVisible(true, ImgBackgrounds.error, 0, false);
 			this.input = "";
 		}
 	}
@@ -369,7 +373,7 @@ public class KeypadListener extends Thread{
 	 * @param amount
 	 * @return
 	 */
-	private synchronized Boolean checkIfLegitSum(int amount) {
+	private synchronized Boolean checkIfLegitSum(int amount) {	
 		if(amount > 250 || amount == 0) return false;
 		
 		int remainder = Math.abs(amount % 10);

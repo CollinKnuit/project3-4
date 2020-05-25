@@ -109,7 +109,7 @@ public class Painter {
 				
 				
 				this.errorMsgAmount = new JLabel();
-				this.errorMsgAmount.setBounds(300, 550, 660, 45);
+				this.errorMsgAmount.setBounds(300, 550, 900, 45);
 				this.errorMsgAmount.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
 				this.errorMsgAmount.setForeground(Color.decode("#FF0000"));
 				this.errorMsgAmount.setBackground(Color.decode("#CCCCCC"));
@@ -283,7 +283,7 @@ public class Painter {
 	 * @param visible
 	 * @param currentScreen
 	 */
-	public synchronized void setErrorMsgVisible(boolean visible, ImgBackgrounds currentScreen, int attempts_wrong) {
+	public synchronized void setErrorMsgVisible(boolean visible, ImgBackgrounds currentScreen, int attempts_wrong, boolean exceededPinLimit) {
 		
 		switch (currentScreen) {
 			case FL1_1:
@@ -293,7 +293,12 @@ public class Painter {
 				break;
 				
 			case FV1_1:
-				this.errorMsgAmount.setText("Het bedrag is niet deelbaar door 10.");
+				if(exceededPinLimit) {
+					this.errorMsgAmount.setText("Kies alstublieft een getal tussen de 0 en de 250 ");
+				} else {
+					this.errorMsgAmount.setText("Het bedrag is niet deelbaar door 10.");
+				}
+				
 				this.errorMsgAmount.setVisible(visible);
 				break;
 		default:
