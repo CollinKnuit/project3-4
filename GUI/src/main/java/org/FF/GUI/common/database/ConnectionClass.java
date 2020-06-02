@@ -7,8 +7,8 @@ import java.sql.SQLException;
 public class ConnectionClass {
 
 	public static Connection conn = null;
-	private String url = "jdbc:mysql://localhost:3306/mydb?serverTimezone=Europe/Amsterdam&allowMultiQueries=true";
-	private final String username = "username"; // change to actual userName
+	private String url = "jdbc:mysql://145.24.222.168:3306/flfl_bank?serverTimezone=Europe/Amsterdam"
+			+ "&allowMultiQueries=true";
 	private final String password = "password"; // change to actual password
  
 	/**

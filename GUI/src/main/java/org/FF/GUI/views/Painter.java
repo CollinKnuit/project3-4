@@ -1,6 +1,8 @@
 package org.FF.GUI.views;
 
 import java.awt.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 
 import javax.swing.*;
@@ -89,7 +91,7 @@ public class Painter {
 		 		break;
 			case FS1_1:
 		 		this.saldo = new JTextField();
-		 		this.saldo.setText(acount.getBalance().toString());
+		 		this.saldo.setText( acount.getBalance().setScale(2, RoundingMode.HALF_EVEN).toString()  );
 		 		this.saldo.setBounds(690, 470, 350, 60);
 		 		this.saldo.setFont(new Font(null,Font.BOLD, 36));
 		 		this.saldo.setColumns(10);
