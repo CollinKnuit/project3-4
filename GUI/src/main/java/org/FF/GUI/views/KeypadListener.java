@@ -303,8 +303,8 @@ public class KeypadListener extends Thread{
 					e.printStackTrace();
 				}
 				break;
-		default:
-			break;
+			default:
+				break;
 		
 		}					
 	}

@@ -25,7 +25,7 @@ public class RFIDListener extends Thread{
 	}
 	
 	/**
-	 * 
+	 * suspend the thread
 	 */
 	public void suspendThread() {
 		synchronized (this) {
@@ -35,7 +35,7 @@ public class RFIDListener extends Thread{
 	}
 	
 	/**
-	 * 
+	 * activate the thread
 	 */
 	public void activateThread() {
 		synchronized (this) {
