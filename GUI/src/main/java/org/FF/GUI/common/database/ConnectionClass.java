@@ -10,6 +10,7 @@ public class ConnectionClass {
 	private String url = "jdbc:mysql://145.24.222.168:3306/flfl_bank?serverTimezone=Europe/Amsterdam"
 			+ "&allowMultiQueries=true";
 	private final String password = "password"; // change to actual password
+	private final String username = "username"; // change to actual password
  
 	/**
 	 * 
