@@ -1,13 +1,19 @@
 package org.FF.GUI.views;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
-
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime;   
 
 import org.FF.GUI.common.SerialConnection.SerialConnection;
 import org.FF.GUI.common.config.Moneydispenser;
+import org.FF.GUI.common.database.Acount;
+import org.FF.GUI.common.database.DatabaseQueryClass;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class KeypadListener extends Thread{
@@ -23,9 +29,14 @@ public class KeypadListener extends Thread{
 	private Painter painter;
 	private SerialConnection serialConnectionKeypad;
 	private SerialConnection serialConnectionBonprinter;
+	private SerialConnection serialConnectionDispenser;
 	private AtomicBoolean suspend = new AtomicBoolean(true);
 	private String input = "";
 	private Moneydispenser moneydispenser;
+	private CalculateBanknotes calc;
+	private int bedrag;
+	private Acount acount;
+	private static int transactionNumber = 999;
 	
 	/**
 	 * 
@@ -35,8 +46,10 @@ public class KeypadListener extends Thread{
 	public KeypadListener(Painter painter, ArrayList<SerialConnection> serialConnection, Moneydispenser moneydispenser) {
 		this.painter = painter;
 		this.serialConnectionKeypad = serialConnection.get(0);
+		this.serialConnectionDispenser = serialConnection.get(2);
 		this.serialConnectionBonprinter = serialConnection.get(3);
 		this.moneydispenser = moneydispenser;
+		this.calc = new CalculateBanknotes();
 	}
 	
 
@@ -97,7 +110,7 @@ public class KeypadListener extends Thread{
 							if(imgSelectorA == ImgBackgrounds.FB1_1) {
 								input = "70";
 								try {
-									withdrawMoney();
+									withdrawMoney(screen);
 								} catch (SQLException e) {
 									e.printStackTrace();
 								}
@@ -131,7 +144,7 @@ public class KeypadListener extends Thread{
 					case "*":
 			  		
 			  	  		if(screen ==  ImgBackgrounds.FB1_1) {
-			  	  			printBon(70);	
+			  	  			painter.switchPane(imgSelectorS);	
 			  	  		} 
 			  	  		else{
 			  	  			backspace(screen);
@@ -141,7 +154,7 @@ public class KeypadListener extends Thread{
 				  	
 					case "#":
 						if(screen == ImgBackgrounds.FB1_1){
-							painter.switchPane(imgSelectorH);
+							printBon(bedrag);
 						} 
 						else {
 							enter(screen);
@@ -161,6 +174,18 @@ public class KeypadListener extends Thread{
 							painter.setAmount(input);
 							break;
 						
+						}
+
+						if(screen == ImgBackgrounds.FK1_1) {
+							
+							try {
+								chooseBankNotes(c);
+							} catch (SQLException | IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+							break;
 						}
 
 						if(screen == ImgBackgrounds.FL1_1){
@@ -238,7 +263,7 @@ public class KeypadListener extends Thread{
 		switch(screen) {
 		  	case FV1_1:
 		  		try {
-		  			withdrawMoney();
+		  			withdrawMoney(screen);
 		  		} catch (SQLException e1) {
 		  			// TODO Auto-generated catch block
 		  			e1.printStackTrace();
@@ -252,7 +277,7 @@ public class KeypadListener extends Thread{
 					
 					if(hashmap.containsKey(false)) {
 						int attempts_wrong = hashmap.values().stream().findFirst().get();
-						painter.setErrorMsgVisible(true, screen, attempts_wrong);
+						painter.setErrorMsgVisible(true, screen, attempts_wrong, false);
 						if(attempts_wrong == 3) {
 							Thread.sleep(5000);
 							painter.switchPane(ImgBackgrounds.FW1_1);
@@ -272,36 +297,43 @@ public class KeypadListener extends Thread{
 				break;
 			case FP1_1:
 				try {
-					withdrawMoney();
+					withdrawMoney(screen);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;
-		default:
-			break;
+			default:
+				break;
 		
 		}					
 	}
 	
-	private void withdrawMoney() throws SQLException {
+	private void withdrawMoney(ImgBackgrounds screen) throws SQLException {
 		var amount = Integer.parseInt(this.input);
 	  	
 	  	if(!checkIfLegitSum(amount)) {
+	  		if(amount > 250 || amount == 0) { 
+	  			painter.setErrorMsgVisible(true, ImgBackgrounds.FV1_1, 0, true);
+	  		}else {
+	  			painter.setErrorMsgVisible(true, ImgBackgrounds.FV1_1, 0, false);
+	  		}
 	  		this.input = "";
 	  		painter.setAmount("");
-	  		painter.setErrorMsgVisible(true, ImgBackgrounds.FV1_1, 0);
 	  		return;
 	  	}
 	
 	  	var d = new BigDecimal(amount);
-		if (painter.getAcount().getBalance().compareTo(d) == 1 ) {
+	  	var  e = painter.getAcount().getBalance().compareTo(d);
+		if (e == 1 || e == 0 ) {
 			painter.setAmount(Integer.toString(amount));
-			painter.switchPane(ImgBackgrounds.FB1_1);
+			bedrag = Integer.parseInt(input);
 			this.input = "";
+			painter.switchPane(ImgBackgrounds.FK1_1);
+			
 		} else {
 			if(painter.getAmount() != null) painter.setAmount("");
-			painter.setErrorMsgVisible(true, ImgBackgrounds.error, 0);
+			painter.setErrorMsgVisible(true, ImgBackgrounds.error, 0, false);
 			this.input = "";
 		}
 	}
@@ -341,15 +373,15 @@ public class KeypadListener extends Thread{
 	 * @param amount
 	 * @return
 	 */
-	private synchronized Boolean checkIfLegitSum(int amount) {
+	private synchronized Boolean checkIfLegitSum(int amount) {	
+		if(amount > 250 || amount == 0) return false;
+		
 		int remainder = Math.abs(amount % 10);
 		if(remainder != 0) {
 			return false;
 		}
-		
+		 
 		return true;
-
-		
 	}
 
 	/**
@@ -357,14 +389,61 @@ public class KeypadListener extends Thread{
 	 * @param input
 	 */
 	private void printBon(int input){
-		//serialConnectionBonprinter.sendData("1");
-		//serialConnectionBonprinter.sendData(Integer.toString(amountOutput));
-		painter.switchPane(imgSelectorS);	
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+    	Date date = new Date();  
+    	System.out.println(formatter.format(date)); 
+		String pinAmount = Integer.toString(input);
+		String rfidNumber = painter.getAcount().getRfidNumber();
+		String transactionNumber = Integer.toString(++this.transactionNumber);
+		String dateSent = formatter.format(date);		
+		 this.serialConnectionBonprinter.sendData(pinAmount + rfidNumber + transactionNumber + dateSent);
+		painter.switchPane(imgSelectorH);
+
 	}
 	
 	
 	public SerialConnection getSerialConnectionKeypad() {
 		return serialConnectionKeypad;
+	}
+	
+	
+		
+	/**
+	 * 
+	 * @param a
+	 * @throws SQLException 
+	 * @throws IOException 
+	 */
+	public void chooseBankNotes(String a) throws SQLException, IOException {
+		int previusBanknotes10 = moneydispenser.getBanknotes_10();
+		int previusBanknotes20 = moneydispenser.getBanknotes_20();
+		int previusBanknotes50 = moneydispenser.getBanknotes_50();
+		
+		int array[] = calc.calculateBanknotesTotaal(bedrag, Integer.parseInt(a), previusBanknotes10, 
+													previusBanknotes20, previusBanknotes50);
+		
+		if(!painter.getQuery().withDrawMoney(painter.getAcountID(), bedrag)) {
+				//TODO go to homescreen deltea all data
+				
+				return;
+		}
+	
+		moneydispenser.updateBanknotes_10(array[0]);			
+		moneydispenser.updateBanknotes_20(array[1]);
+		moneydispenser.updateBanknotes_50(array[2]);
+		
+		moneydispenser.updateConfig();
+		
+		//TODO dispense money
+		String amountOfBanknotes = Integer.toString(array[0]) + Integer.toString(array[1]) + Integer.toString(array[2]);
+		System.out.println(amountOfBanknotes);
+		serialConnectionDispenser.sendData(amountOfBanknotes);
+		
+		painter.switchPane(ImgBackgrounds.FB1_1);
+	}
+	
+	public int getBedrag() {
+		return bedrag;
 	}
 
 
@@ -375,8 +454,8 @@ public class KeypadListener extends Thread{
 	 * @param imgSelectorB	is button B	{@code ImgBackgrounds}
 	 * @param imgSelectorC	is button C {@code ImgBackgrounds}
 	 * @param imgSelectorD	is button D	{@code ImgBackgrounds}
-     * @param imgSelectorS	is button D	{@code ImgBackgrounds}
-	 * @param imgSelectorH	is button H	{@code ImgBackgrounds}
+     * @param imgSelectorS	is button star {@code ImgBackgrounds}
+	 * @param imgSelectorH	is button hashtag {@code ImgBackgrounds}
 	 * @param imgSelectorG is button 1, 2, 3 or 4 {@code ImgBackgrounds}
 	 */	
 	public synchronized void setImgSelectors(ImgBackgrounds imgSelectorA, ImgBackgrounds imgSelectorB, 
@@ -392,6 +471,8 @@ public class KeypadListener extends Thread{
 		this.imgSelectorH = imgSelectorH;
 		this.imgSelectorG = imgSelectorG;
 	}
+	
+	
 
 	
 }

@@ -56,7 +56,12 @@ public class SerialConnection {
 		}
 		return;
 	}
-
+	/**
+	 * try to remove portlistener.
+	 * if there is a InterruptedException execute printStackTrace()
+	 * 
+	 * @return
+	 */
 	public void removePortListener() {
 		if(exit.get() || portListener == null) return;
 		try {
@@ -76,9 +81,19 @@ public class SerialConnection {
 	 * @throws NullPointerException
 	 */
 	public void sendData(String buffer) throws NullPointerException {
+		
 		serialPort.writeBytes(buffer.getBytes(), buffer.length());
 	}
 	
+	/**
+	 * store bytes available from serialPort in bytesAvailable
+	 * 
+	 * if there are no bytes available return null
+	 * store the bytes that are available in newData. 
+	 * And return newData if the length of newData is the same as the amount of bytes serialPort reads.
+	 * 
+	 * @return null or newData
+	 */
 	public synchronized String readPort() {
 		var bytesAvailable = serialPort.bytesAvailable();
 
@@ -110,6 +125,7 @@ public class SerialConnection {
 					if (bytesAvailable <= 0) {
 						continue;
 					}
+					
 					synchronized (waitingQueue) {
 						var newData = new byte[serialPort.bytesAvailable()];
 						if (newData.length == serialPort.readBytes(newData, newData.length)) {

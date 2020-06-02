@@ -1,6 +1,8 @@
 package org.FF.GUI.views;
 
 import java.awt.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 
 import javax.swing.*;
@@ -30,6 +32,7 @@ public class Painter {
 	private JLabel errorMsgAmount;
 	private JLabel errorMsgLogin;
 	private int acountID;
+	private JLabel banknotesTenOption, banknotesTwentyOption, banknotesFiftyOption, banknotesOptionFour;
 	
 	/**
 	 * Sets up the begin frame and the keypadListener
@@ -83,13 +86,12 @@ public class Painter {
 		switch(img) {
 		 	case FB1_1:
 				//DONE	
-		 		
 				keypadSwitchScreenListener.setImgSelectors(null, null, null, null, ImgBackgrounds.FW1_1, ImgBackgrounds.FW1_1, null);
 				
 		 		break;
 			case FS1_1:
 		 		this.saldo = new JTextField();
-		 		this.saldo.setText(acount.getBalance().toString());
+		 		this.saldo.setText( acount.getBalance().setScale(2, RoundingMode.HALF_EVEN).toString()  );
 		 		this.saldo.setBounds(690, 470, 350, 60);
 		 		this.saldo.setFont(new Font(null,Font.BOLD, 36));
 		 		this.saldo.setColumns(10);
@@ -109,7 +111,7 @@ public class Painter {
 				
 				
 				this.errorMsgAmount = new JLabel();
-				this.errorMsgAmount.setBounds(300, 550, 660, 45);
+				this.errorMsgAmount.setBounds(300, 550, 900, 45);
 				this.errorMsgAmount.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
 				this.errorMsgAmount.setForeground(Color.decode("#FF0000"));
 				this.errorMsgAmount.setBackground(Color.decode("#CCCCCC"));
@@ -145,7 +147,7 @@ public class Painter {
 				this.errorMsgAmount.setBackground(Color.decode("#CCCCCC"));
 				this.errorMsgAmount.setVisible(false);
 				this.errorMsgAmount.setOpaque(true);
-		 		
+		 		 
 				p2.add(errorMsgAmount, JLayeredPane.POPUP_LAYER);
 				
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FH1_1, ImgBackgrounds.FV1_1, null, ImgBackgrounds.FW1_1, null, null, ImgBackgrounds.FB1_1);
@@ -181,8 +183,49 @@ public class Painter {
 				keypadSwitchScreenListener.activateThread();
 				
 				break;
-
+			case FK1_1:
 				
+				boolean[] optionAvailable = moneydispenser.availableOptions(keypadSwitchScreenListener.getBedrag());
+				
+				this.banknotesTenOption = new JLabel("kies zoveel mogelijk 10 ofzo (1)", SwingConstants.CENTER);
+				this.banknotesTenOption.setBounds(225, 675, 660, 145);
+				this.banknotesTenOption.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
+				this.banknotesTenOption.setForeground(Color.white);
+				this.banknotesTenOption.setBackground(Color.decode("#FF0000"));
+				this.banknotesTenOption.setVisible(optionAvailable[0]);
+				this.banknotesTenOption.setOpaque(true);
+
+				this.banknotesTwentyOption = new JLabel("kies zoveel mogelijk 20 ofzo (2)", SwingConstants.CENTER);
+				this.banknotesTwentyOption.setBounds(910, 675, 660, 145);
+				this.banknotesTwentyOption.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
+				this.banknotesTwentyOption.setForeground(Color.white);
+				this.banknotesTwentyOption.setBackground(Color.decode("#FF0000"));
+				this.banknotesTwentyOption.setVisible(optionAvailable[1]);
+				this.banknotesTwentyOption.setOpaque(true);
+
+				this.banknotesFiftyOption = new JLabel("kies zoveel mogelijk 50 ofzo (3)", SwingConstants.CENTER);
+				this.banknotesFiftyOption.setBounds(225, 850, 660, 145);
+				this.banknotesFiftyOption.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
+				this.banknotesFiftyOption.setForeground(Color.white);
+				this.banknotesFiftyOption.setBackground(Color.decode("#FF0000"));
+				this.banknotesFiftyOption.setVisible(optionAvailable[2]);
+				this.banknotesFiftyOption.setOpaque(true);
+				
+				this.banknotesOptionFour = new JLabel("er wordt een keuze gemaakt (4)", SwingConstants.CENTER);
+				this.banknotesOptionFour.setBounds(910, 850, 660, 145);
+				this.banknotesOptionFour.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
+				this.banknotesOptionFour.setForeground(Color.white);
+				this.banknotesOptionFour.setBackground(Color.decode("#FF0000"));
+				this.banknotesOptionFour.setVisible(optionAvailable[3]);
+				this.banknotesOptionFour.setOpaque(true);
+				
+				p2.add(this.banknotesTenOption, JLayeredPane.POPUP_LAYER);
+				p2.add(this.banknotesTwentyOption, JLayeredPane.POPUP_LAYER);
+				p2.add(this.banknotesFiftyOption, JLayeredPane.POPUP_LAYER);
+				p2.add(this.banknotesOptionFour, JLayeredPane.POPUP_LAYER);
+				
+				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FH1_1, null, null, ImgBackgrounds.FW1_1, null, ImgBackgrounds.FB1_1, null);
+				break;				
 		}
 		
 		
@@ -242,7 +285,7 @@ public class Painter {
 	 * @param visible
 	 * @param currentScreen
 	 */
-	public synchronized void setErrorMsgVisible(boolean visible, ImgBackgrounds currentScreen, int attempts_wrong) {
+	public synchronized void setErrorMsgVisible(boolean visible, ImgBackgrounds currentScreen, int attempts_wrong, boolean exceededPinLimit) {
 		
 		switch (currentScreen) {
 			case FL1_1:
@@ -252,7 +295,12 @@ public class Painter {
 				break;
 				
 			case FV1_1:
-				this.errorMsgAmount.setText("Het bedrag is niet deelbaar door 10.");
+				if(exceededPinLimit) {
+					this.errorMsgAmount.setText("Kies alstublieft een getal tussen de 0 en de 250 ");
+				} else {
+					this.errorMsgAmount.setText("Het bedrag is niet deelbaar door 10.");
+				}
+				
 				this.errorMsgAmount.setVisible(visible);
 				break;
 		default:
@@ -261,4 +309,5 @@ public class Painter {
 				break;
 		}
 	}
+
 }
