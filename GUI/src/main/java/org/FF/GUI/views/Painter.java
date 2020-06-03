@@ -187,7 +187,7 @@ public class Painter {
 				
 				boolean[] optionAvailable = moneydispenser.availableOptions(keypadSwitchScreenListener.getBedrag());
 				
-				this.banknotesTenOption = new JLabel("kies zoveel mogelijk 10 ofzo (1)", SwingConstants.CENTER);
+				this.banknotesTenOption = new JLabel("Zoveel mogelijk 10 (1)", SwingConstants.CENTER);
 				this.banknotesTenOption.setBounds(225, 675, 660, 145);
 				this.banknotesTenOption.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
 				this.banknotesTenOption.setForeground(Color.white);
@@ -195,7 +195,7 @@ public class Painter {
 				this.banknotesTenOption.setVisible(optionAvailable[0]);
 				this.banknotesTenOption.setOpaque(true);
 
-				this.banknotesTwentyOption = new JLabel("kies zoveel mogelijk 20 ofzo (2)", SwingConstants.CENTER);
+				this.banknotesTwentyOption = new JLabel("Zoveel mogelijk 20 (2)", SwingConstants.CENTER);
 				this.banknotesTwentyOption.setBounds(910, 675, 660, 145);
 				this.banknotesTwentyOption.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
 				this.banknotesTwentyOption.setForeground(Color.white);
@@ -203,7 +203,7 @@ public class Painter {
 				this.banknotesTwentyOption.setVisible(optionAvailable[1]);
 				this.banknotesTwentyOption.setOpaque(true);
 
-				this.banknotesFiftyOption = new JLabel("kies zoveel mogelijk 50 ofzo (3)", SwingConstants.CENTER);
+				this.banknotesFiftyOption = new JLabel("Zoveel mogelijk 50 (3)", SwingConstants.CENTER);
 				this.banknotesFiftyOption.setBounds(225, 850, 660, 145);
 				this.banknotesFiftyOption.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
 				this.banknotesFiftyOption.setForeground(Color.white);
@@ -211,7 +211,7 @@ public class Painter {
 				this.banknotesFiftyOption.setVisible(optionAvailable[2]);
 				this.banknotesFiftyOption.setOpaque(true);
 				
-				this.banknotesOptionFour = new JLabel("er wordt een keuze gemaakt (4)", SwingConstants.CENTER);
+				this.banknotesOptionFour = new JLabel("De keuze wordt voor u gemaakt (4)", SwingConstants.CENTER);
 				this.banknotesOptionFour.setBounds(910, 850, 660, 145);
 				this.banknotesOptionFour.setFont(new Font(this.errorMsgLogin.getFont().getName(),Font.BOLD, 36));
 				this.banknotesOptionFour.setForeground(Color.white);
@@ -296,7 +296,7 @@ public class Painter {
 				
 			case FV1_1:
 				if(exceededPinLimit) {
-					this.errorMsgAmount.setText("Kies alstublieft een getal tussen de 0 en de 250 ");
+					this.errorMsgAmount.setText("Kies alstublieft een bedrag tussen de 0 en de 250 ");
 				} else {
 					this.errorMsgAmount.setText("Het bedrag is niet deelbaar door 10.");
 				}

@@ -25,7 +25,7 @@ public class App {
 		file = new FileUpdate();
 		var a = file.getData();
 		
-		if(a[0].contains("null") || a[1].contains("null")) {
+		if(a[0].contains("null") || a[1].contains("null") || a[2].contains("null")) {
 			serialConnection = new ComPortSetup(a).setupComPort();
 			file.updateFile();
 		}else {
