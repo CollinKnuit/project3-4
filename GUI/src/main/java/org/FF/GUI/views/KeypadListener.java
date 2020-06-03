@@ -60,6 +60,8 @@ public class KeypadListener extends Thread{
 		synchronized (this) {
 			serialConnectionKeypad.removePortListener();
 			suspend.compareAndSet(false, true);		
+			input = "";
+			bedrag = 0;
 		}
 	}
 	
