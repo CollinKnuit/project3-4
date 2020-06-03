@@ -54,7 +54,7 @@ public class KeypadListener extends Thread{
 	
 
 	/**
-	 * 
+	 * suspend the thread
 	 */
 	public void suspendThread() {
 		synchronized (this) {
@@ -66,7 +66,7 @@ public class KeypadListener extends Thread{
 	}
 	
 	/**
-	 * 
+	 * activate the thread
 	 */
 	public void activateThread() {
 		synchronized (this) {
@@ -204,7 +204,7 @@ public class KeypadListener extends Thread{
 
 	
 	/**
-	 * 
+	 * stops thread
 	 * @return
 	 */
 	public boolean stopThread() {
@@ -212,7 +212,7 @@ public class KeypadListener extends Thread{
 	}
 	
 	/**
-	 * 
+	 * starts thread
 	 * @return
 	 */
 	public boolean startThread() {
@@ -220,9 +220,10 @@ public class KeypadListener extends Thread{
 	}
 		
 	/**
-	 * depending on the parameter a (amount) print 10, 20, 50 euro's
+	 * depending on the parameter a (amount) set the input(the amount of money that wants to be printed) to 10, 20, 50, 100.
+	 * and execute enter(see enter comments for a description)
 	 * 
-	 * @param a
+	 * @param a (amount)
 	 */
 	private void choiceScreen(String a){
 		input = "";
@@ -248,16 +249,22 @@ public class KeypadListener extends Thread{
 	}
 	
 	/**
-	 * if the parameter screen equals FV1_1 check if the amount is legit. If not, clear input and the displayed amount
-	 * else if balance from acount is bigger than amount put amount on the screen and clear input
-	 * else clear input and the displayed amount and display the error message
+	 * if the parameter screen equals FV1_1 execute withdrawMoney(see comments withdrawMoney for description)
 	 * 
 	 * if the parameter screen equals FL1_1 check if input is a pair with acountID (from acount) in hasmap. If so request acountInfo 
 	 * from acount out of the database and update acount with the values from the query in the method getAcountInfo and continue to the homescreen
-	 * and after that clear input and the displayed password and display the error message
-	 * to display the error message properly the method stores the amount of wrong attempts from the query and gives it to the method displaying the error message.
-	 * @param s
+	 * and after that clear input and the displayed password.
+	 * if false calculate attempts_wrong and set the error message that belongs to that error.
+	 * if attemps_wrong is 3 sleep for 5 seconds and return to the welcomeScreen
+	 *  
+	 * to see how setErrorMsgVisible works see comments setErrorMsgVisible in painter.
+	 * 
+	 * if screen is FP1_1 try to execute withdraw money if SQLException received print stackTrace.
+	 * if screen is not FP1_1, FV1_1 or FL1_1 do nothing.
+	 * @param screen
 	 * @throws SQLException 
+	 * 
+	 * @return
 	 */
 	private void enter(ImgBackgrounds screen)  {
 		if(input == "") return;
@@ -311,6 +318,21 @@ public class KeypadListener extends Thread{
 		}					
 	}
 	
+	/**
+	 * if checkIfLegitSum equals false check if amount is between 0 and 250. 
+	 * if so display the error message that corresponds with that error.
+	 * if not display the error message that says amount is not a multiple of 10.
+	 * after that clear amount on the GUI and input. And return.
+	 * 
+	 *  if checkIfLegitSum equals true check if the user has enough money on the bank
+	 *  if so store input in bedrag as string display amount on the screen and clear input
+	 *  after that go the FK1_1(see ImgBackgrounds for description)
+	 *  if the user does not have enough money on the bank clear input. 
+	 *  And display the corresponding error message.
+	 * 
+	 * @param screen
+	 * @throws SQLException
+	 */
 	private void withdrawMoney(ImgBackgrounds screen) throws SQLException {
 		var amount = Integer.parseInt(this.input);
 	  	
@@ -344,7 +366,7 @@ public class KeypadListener extends Thread{
 	 * If the input is not empty make a new input wich is one character smaller.
 	 * if the parameter screen is FV1_1 set the displayed amount with the value input
 	 * if screen is FL1_1 set the displayed password with the value input
-	 * otherwise clear input 
+	 * if input length is 0 characters clear input 
 	 * 
 	 * @param screen
 	 */
@@ -369,11 +391,12 @@ public class KeypadListener extends Thread{
 
 
 	/**
-	 * if the remainder of the parameter amount / 10 equals 0 return true
-	 * otherwise return false
+	 * if the remainder of the parameter amount / 10 does not equal 0 return false 
+	 * and if amount is 0 or greater than 250 return false
+	 * otherwise return true
 	 * 
 	 * @param amount
-	 * @return
+	 * @return true/false
 	 */
 	private synchronized Boolean checkIfLegitSum(int amount) {	
 		if(amount > 250 || amount == 0) return false;
@@ -387,32 +410,40 @@ public class KeypadListener extends Thread{
 	}
 
 	/**
+	 * initialize the variables that represent date, pinAmount, rfidNumber, transactionNumber and dateSent
+	 * and send those variables in one go the bonPrinter through that serialConnection.
+	 * after that switch to the screen that corresponds with imgSelectorH.
 	 * 
 	 * @param input
 	 */
 	private void printBon(int input){
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
-    	Date date = new Date();  
-    	System.out.println(formatter.format(date)); 
+    	Date date = new Date();   
 		String pinAmount = Integer.toString(input);
 		String rfidNumber = painter.getAcount().getRfidNumber();
 		String transactionNumber = Integer.toString(++this.transactionNumber);
-		String dateSent = formatter.format(date);		
-		 this.serialConnectionBonprinter.sendData(pinAmount + rfidNumber + transactionNumber + dateSent);
-		painter.switchPane(imgSelectorH);
+		String dateSent = formatter.format(date);
+		this.serialConnectionBonprinter.sendData(pinAmount + rfidNumber + transactionNumber + dateSent);
+		painter.switchPane(imgSelectorH);	
 
 	}
-	
 	
 	public SerialConnection getSerialConnectionKeypad() {
 		return serialConnectionKeypad;
 	}
-	
-	
 		
 	/**
+	 * Initialize previusBanknotes10, previusBanknotes20 and previusBanknotes50 with the data that is stored in moneydispenser.
+	 * fill array with the amount of banknotes needed to be printed of each type.
 	 * 
-	 * @param a
+	 * execute withDrawMoney query and if it returns false return
+	 * otherwise update the amount of banknotes there are in each dispenser.
+	 * convert array to a string and send that to the dispenser.
+	 * 
+	 * then check if there is a serialConnection with bonPrinter
+	 * go to the welcome screen otherwise go to FB1_1
+	 * 
+	 * @param a (amount)
 	 * @throws SQLException 
 	 * @throws IOException 
 	 */
@@ -425,8 +456,6 @@ public class KeypadListener extends Thread{
 													previusBanknotes20, previusBanknotes50);
 		
 		if(!painter.getQuery().withDrawMoney(painter.getAcountID(), bedrag)) {
-				//TODO go to homescreen deltea all data
-				
 				return;
 		}
 	
@@ -436,11 +465,13 @@ public class KeypadListener extends Thread{
 		
 		moneydispenser.updateConfig();
 		
-		//TODO dispense money
 		String amountOfBanknotes = Integer.toString(array[0]) + Integer.toString(array[1]) + Integer.toString(array[2]);
-		System.out.println(amountOfBanknotes);
 		serialConnectionDispenser.sendData(amountOfBanknotes);
 		
+		if(this.serialConnectionBonprinter == null) {
+			painter.switchPane(ImgBackgrounds.FW1_1);
+			return;
+		}
 		painter.switchPane(ImgBackgrounds.FB1_1);
 	}
 	
