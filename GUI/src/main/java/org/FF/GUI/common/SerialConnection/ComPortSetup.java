@@ -222,7 +222,7 @@ public class ComPortSetup{
 		
 		serial.add(a);
 		
-		var b = new SerialConnection(config[1], 115200);
+		var b = new SerialConnection(config[1], 9600);
 		b.openPort();
 		serial.add(b);
 		

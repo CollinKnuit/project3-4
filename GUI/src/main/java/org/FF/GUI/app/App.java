@@ -20,12 +20,12 @@ public class App {
 	
 	private static Painter painter;
 	
-	public static void main(String args[]) throws IOException, SQLException {  
+	public static void main(String args[]) throws IOException, SQLException, InterruptedException {  
 
 		file = new FileUpdate();
 		var a = file.getData();
 		
-		if(a[0].contains("null") || a[1].contains("null")) {
+		if(a[0].contains("null") || a[1].contains("null") || a[2].contains("null")) {
 			serialConnection = new ComPortSetup(a).setupComPort();
 			file.updateFile();
 		}else {
@@ -33,7 +33,6 @@ public class App {
 		}
 		
 		Moneydispenser moneydispenser = new Moneydispenser(file);
-		
 		
         // create a welcome screen.
        
