@@ -420,6 +420,11 @@ public class KeypadListener extends Thread{
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
     	Date date = new Date();   
 		String pinAmount = Integer.toString(input);
+		
+		if(input < 99) {
+			pinAmount += ' ';
+		}
+		
 		String rfidNumber = painter.getAcount().getRfidNumber();
 		String transactionNumber = Integer.toString(++this.transactionNumber);
 		String dateSent = formatter.format(date);

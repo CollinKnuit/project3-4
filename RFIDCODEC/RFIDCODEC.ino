@@ -91,7 +91,7 @@ void loop() {
   }
   Serial.print(char2);
   
-  delay(100); //change value if you want to read cards faster
+  delay(1000); //change value if you want to read cards faster
 
   mfrc522.PICC_HaltA();
   mfrc522.PCD_StopCrypto1();
