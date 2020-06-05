@@ -70,7 +70,7 @@ public class ComPortSetup{
 		
 		availablePorts();
 		
-		serial = setup(115200, "Do you want to skip setup for the rfid(y/n)", 1);
+		serial = setup(9600, "Do you want to skip setup for the rfid(y/n)", 1);
 		
 		if (serial != null) {
 			serial.openPort();
