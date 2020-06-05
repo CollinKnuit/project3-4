@@ -10,20 +10,16 @@
   <name>GUI</name>
   <url>http://maven.apache.org</url>
 
+
+  
   <properties>
   	<maven.compiler.target>13</maven.compiler.target>
 	<maven.compiler.source>13</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     <skipTests>true</skipTests>
   </properties>
 
   <dependencies>
-  
-     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
     
     
     <!-- https://mvnrepository.com/artifact/com.fazecast/jSerialComm -->
@@ -40,6 +36,20 @@
     	<version>0.27</version>
     	<scope>runtime</scope>
 	</dependency>
+	
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+	<dependency>
+    	<groupId>mysql</groupId>
+    	<artifactId>mysql-connector-java</artifactId>
+    	<version>8.0.19</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
+<dependency>
+    <groupId>org.mindrot</groupId>
+    <artifactId>jbcrypt</artifactId>
+    <version>0.4</version>
+</dependency>
 	
 	
   </dependencies>
