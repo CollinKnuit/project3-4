@@ -37,9 +37,10 @@ public class Painter {
 	/**
 	 * Sets up the begin frame and the keypadListener
 	 * 
-	 * @param serialConnection {@code SerialConnection}
-	 * @param file 
+	 * @param serialConnection
+	 * @param moneydispenser
 	 */
+
 	public Painter(ArrayList<SerialConnection> serialConnection, Moneydispenser moneydispenser) {
 		this.keypadSwitchScreenListener = new KeypadListener(this, serialConnection, moneydispenser); 
 		this.fRfidListener = new RFIDListener(this, serialConnection.get(1));
@@ -53,9 +54,6 @@ public class Painter {
 		this.f.setVisible(true);
 		fRfidListener.start();
 		keypadSwitchScreenListener.start();
-		//this.f.setAlwaysOnTop (true);
-	
-		
 		switchPane(ImgBackgrounds.FW1_1);
 	}
 		
@@ -70,6 +68,7 @@ public class Painter {
 	 * 
 	 * @param img {@code ImgBackgrounds}
 	 */
+
 	public synchronized void switchPane(ImgBackgrounds img) {
 		
 		JLayeredPane p2 = new JLayeredPane();
@@ -85,7 +84,6 @@ public class Painter {
 		this.currrentScreen = img;
 		switch(img) {
 		 	case FB1_1:
-				//DONE	
 				keypadSwitchScreenListener.setImgSelectors(null, null, null, null, ImgBackgrounds.FW1_1, ImgBackgrounds.FW1_1, null);
 				
 		 		break;
@@ -97,8 +95,7 @@ public class Painter {
 		 		this.saldo.setColumns(10);
 				
 				saldo.setEditable(false);
-				p2.add(saldo, JLayeredPane.POPUP_LAYER);
-				//DONE																						
+				p2.add(saldo, JLayeredPane.POPUP_LAYER);																				
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FH1_1, ImgBackgrounds.FP1_1, null, ImgBackgrounds.FW1_1, null, null, null);
 				break;
 				
@@ -119,8 +116,7 @@ public class Painter {
 				this.errorMsgAmount.setOpaque(true);
 				
 				p2.add(this.amount, JLayeredPane.POPUP_LAYER);
-				p2.add(errorMsgAmount, JLayeredPane.POPUP_LAYER);
-				//DONE																											
+				p2.add(errorMsgAmount, JLayeredPane.POPUP_LAYER);																										
 				keypadSwitchScreenListener.setImgSelectors(ImgBackgrounds.FH1_1, ImgBackgrounds.FP1_1, null, ImgBackgrounds.FW1_1, null, ImgBackgrounds.FB1_1, null);
 			    break;
 		 	case FH1_1:
@@ -236,44 +232,74 @@ public class Painter {
 		f.repaint();
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public synchronized ImgBackgrounds getScreen() {
 		return currrentScreen;
 	}
-	
+	/**
+	 * @return
+	 */
 	public synchronized String getAmount() {
 		if(amount == null) return null;
 		return this.amount.getText();
 	}
-
+	/**
+	 * 
+	 * @param amount
+	 */
 	public synchronized void setAmount(String amount) {
 		if(this.amount == null) return;
 		this.amount.setText(amount);
 	}
-
+	/**
+	 * 
+	 * @return
+	 */
 	public synchronized int getAcountID() {
 		return this.acountID;
 	}
-
+	/**
+	 * 
+	 * @param acountID
+	 */
 	public synchronized void setAcountID(int acountID) {
 		this.acountID = acountID;
 	}
-
+	/**
+	 * 
+	 * @param acount
+	 */
 	public synchronized void setAccount(Acount acount) {
 		this.acount = acount;
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public synchronized String getPassword() {
 		return this.password.getText();
 	}
-
+	/**
+	 * 
+	 * @param password
+	 */
 	public synchronized void setPassword(String password) {
 		this.password.setText(password);
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public synchronized DatabaseQueryClass getQuery() {
 		return this.query;
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public Acount getAcount() {
 		return acount;
 	}
@@ -284,7 +310,10 @@ public class Painter {
 	 * 
 	 * @param visible
 	 * @param currentScreen
+	 * @param attempts_wrong
+	 * @param exceededPinLimit
 	 */
+
 	public synchronized void setErrorMsgVisible(boolean visible, ImgBackgrounds currentScreen, int attempts_wrong, boolean exceededPinLimit) {
 		
 		switch (currentScreen) {

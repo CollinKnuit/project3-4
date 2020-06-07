@@ -9,13 +9,8 @@ public class DatabaseQueryClass {
 	
 		private ConnectionClass connection = new ConnectionClass();
 		
-		/**
-		 * 
-		 */
 		public void closeConnection() {
-			
 			while(!connection.closeConnection());
-			
 		}
 		
 		/**
@@ -34,8 +29,6 @@ public class DatabaseQueryClass {
 				 			+	"FROM acount "
 				 			+  	"WHERE (AcountID = ?) "
 				 			+   "AND Password_Atempt_Wrong < 3;";
-			
-			
 			
 			String stored_hash = "";
 			int Password_Atempt_Wrong = 3;
@@ -58,7 +51,6 @@ public class DatabaseQueryClass {
 			} finally {
 				
 		        if(preparedStmt != null )preparedStmt.close();
-		        
 			}
 			
 			boolean a = false;
@@ -75,10 +67,8 @@ public class DatabaseQueryClass {
 			
 			map.put(a,Password_Atempt_Wrong);
 
-			
 			return map ;
 		}
-		
 		
 		/**
 		 * pass in a acountID to increase the attribute password_attempt_wrong of the acount that matches the parameter acountID
@@ -93,9 +83,7 @@ public class DatabaseQueryClass {
 			String query 	= 	"UPDATE acount "
 				 			+	"SET Password_Atempt_Wrong = Password_Atempt_Wrong + 1 "
 				 			+  	"WHERE AcountID = ?; ";
-			
 
-			
 			PreparedStatement preparedStmt = null;
 			
 			try {
@@ -120,8 +108,7 @@ public class DatabaseQueryClass {
 			} finally {
 				
 			        if(preparedStmt != null )preparedStmt.close();
-			        conn.setAutoCommit(true);
-			        
+			        conn.setAutoCommit(true);   
 			}
 		}
 		
@@ -144,8 +131,7 @@ public class DatabaseQueryClass {
 				 			+	"FROM acount "
 				 			+  	"WHERE (`AcountID` = ?) "
 				 			+   "AND `Password_Atempt_Wrong` < 3;";
-			
-			
+
 			PreparedStatement preparedStmt = null;
 			
 			try {
@@ -162,7 +148,6 @@ public class DatabaseQueryClass {
 					acount.setPassword_Atempt_Wrong(resultSet.getInt(4));
 					
 				}
-				
 				setPassword_Atempt_WrongCorrect(acountId);
 				
 			} catch (SQLException e) {
@@ -177,7 +162,7 @@ public class DatabaseQueryClass {
 		}
 		
 		/**
-		 * Withdraws money from a acount with acountID matching the parameter acountID
+		 * Withdraws money from an account with acountID matching the parameter acountID
 		 * 
 		 * @param acountId
 		 * @param money
@@ -213,14 +198,12 @@ public class DatabaseQueryClass {
 				preparedStmt2.setInt(1, money);
 				preparedStmt2.setInt(2, acountId);
 				preparedStmt2.executeUpdate();
-				
 
 				conn.commit();
 				conn.setAutoCommit(true);
 				bool = true;
 			
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				
 				try{
@@ -272,7 +255,6 @@ public class DatabaseQueryClass {
 				}
 				 
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 		
 			} finally {
@@ -282,8 +264,6 @@ public class DatabaseQueryClass {
 			}
 			return acountID;
 		}
-		
-		
 		/**
 		 * reset the password_atempt_wrong attribute in the database with acountID matching the parameter acountID
 		 * 
@@ -299,8 +279,7 @@ public class DatabaseQueryClass {
 			String query 	= 	"UPDATE acount  "
 						 	+	"SET Password_Atempt_Wrong = 0  "
 						 	+   "WHERE (AcountID = ?);";
-			
-			
+
 			PreparedStatement preparedStmt = null;
 			
 			try {
@@ -314,9 +293,7 @@ public class DatabaseQueryClass {
 				conn.commit();
 				conn.setAutoCommit(true);
 				
-			
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				
 				try{
@@ -332,6 +309,5 @@ public class DatabaseQueryClass {
 			       conn.setAutoCommit(true);
 			        
 			}
-		}
-		
+		}	
 }
