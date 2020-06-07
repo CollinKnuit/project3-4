@@ -1,0 +1,14 @@
+{
+	"body":{
+	"code" : 200,
+	"message" : "success!",
+	"balance" : 999.99
+	},
+	"header":{
+				"originCountry": "DE",
+		        "originBank": "FLFL",
+		        "receiveCountry": "DE",
+		        "receiveBank": "DASB",
+				"action" : "balance"
+	}
+}

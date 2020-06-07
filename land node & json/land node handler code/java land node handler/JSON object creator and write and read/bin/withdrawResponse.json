@@ -1,0 +1,13 @@
+{
+	"body":{
+	"code" : 200,
+	"message" : "success!"
+	},
+	"header":{
+				"originCountry": "DE",
+		        "originBank": "FLFL",
+		        "receiveCountry": "DE",
+		        "receiveBank": "DASB",
+				"action" : "withdraw"
+	}
+}

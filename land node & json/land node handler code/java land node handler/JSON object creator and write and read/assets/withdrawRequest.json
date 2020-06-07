@@ -1,0 +1,13 @@
+{
+		    "body": {
+		        "pin": "0000",
+		        "account": "01234567",
+		        "amount": 15.00
+		    },
+		    "header": {
+		        "originCountry": "DE",
+		        "originBank": "FLFL",
+		        "receiveCountry": "DE",
+		        "receiveBank": "DASB"
+		    }  
+}
