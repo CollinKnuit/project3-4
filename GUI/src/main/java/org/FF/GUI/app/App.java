@@ -20,7 +20,7 @@ public class App {
 	
 	private static Painter painter;
 	
-	public static void main(String args[]) throws IOException, SQLException {  
+	public static void main(String args[]) throws IOException, SQLException, InterruptedException {  
 
 		file = new FileUpdate();
 		var a = file.getData();
@@ -33,7 +33,6 @@ public class App {
 		}
 		
 		Moneydispenser moneydispenser = new Moneydispenser(file);
-		
 		
         // create a welcome screen.
        
