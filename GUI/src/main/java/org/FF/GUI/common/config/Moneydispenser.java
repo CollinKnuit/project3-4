@@ -121,10 +121,6 @@ public class Moneydispenser {
 		return banknotes_10;
 	}
 
-	public void setBanknotes_10(int banknotes_10) {
-		this.banknotes_10 = banknotes_10;
-	}
-
 	public int getBanknotes_20() {
 		return banknotes_20;
 	}
