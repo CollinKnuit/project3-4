@@ -12,6 +12,13 @@ public class FileUpdate {
 	private File config;
 	private String[] data = {"null", "null", "null", "null", "50", "50", "50"};
 	
+	/**
+	 * initialize path,customDir and config
+	 * 
+	 * if there is already a customDir or making one succeeded try to execute readFromConfig when creating a new file fails 
+	 * when creating a new file succeeds execute UpdateFile()
+	 * when the attempt fails execute printStackTrace()
+	 */
 	public FileUpdate() {
 		var path = System.getProperty("user.home") + File.separator + "Documents";
 		this.customDir = new File(path+=File.separator + "ATMData" );
@@ -28,13 +35,9 @@ public class FileUpdate {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-		    
+			}   
 		} 
-		
-		// TODO Auto-generated constructor stub
 	}
-	
 	
 	/**
 	 * read from the config file
@@ -65,8 +68,7 @@ public class FileUpdate {
 	    fw.flush();
 	    fw.close();
 	}
-
-
+	
 	public String[] getData() {
 		return data;
 	}
