@@ -35,7 +35,7 @@ public class SerialConnection {
 	}
 
 	/**
-	 * 
+	 * Closes the serial port
 	 */
 	public void closePort() {
 		if (serialPort != null) {
@@ -45,7 +45,7 @@ public class SerialConnection {
 	}
 
 	/**
-	 * adds a portlistner
+	 * Adds a portlistner
 	 * 
 	 * @throws NullPointerException
 	 */
@@ -57,8 +57,8 @@ public class SerialConnection {
 		return;
 	}
 	/**
-	 * try to remove portlistener.
-	 * if there is a InterruptedException execute printStackTrace()
+	 * Try to remove portlistener.
+	 * If there is a InterruptedException execute printStackTrace()
 	 * 
 	 * @return
 	 */
@@ -86,9 +86,9 @@ public class SerialConnection {
 	}
 	
 	/**
-	 * store bytes available from serialPort in bytesAvailable
+	 * Store bytes available from serialPort in bytesAvailable
 	 * 
-	 * if there are no bytes available return null
+	 * If there are no bytes available return null
 	 * store the bytes that are available in newData. 
 	 * And return newData if the length of newData is the same as the amount of bytes serialPort reads.
 	 * 
@@ -110,7 +110,7 @@ public class SerialConnection {
 	}
 
 	/**
-	 * sets up a serialPortListener and puts it in the queue
+	 * Sets up a serialPortListener and puts it in the queue
 	 * 
 	 */
 	private void serialPortListener() {
@@ -157,7 +157,7 @@ public class SerialConnection {
 	}
 
 	/**
-	 * gets all info thats in the queue
+	 * Gets all info thats in the queue
 	 * 
 	 * @return
 	 */

@@ -18,6 +18,15 @@ public class ComPortSetup{
 	
 	
 	/**
+	 * If there is nothing or less than 2 items in PortNames exit and return null.
+	 * If there are no ports available exit and return null.
+	 * 
+	 * If the user does not want to skip a setup of a serialConnection execute setup. 
+	 * And check if serial is not null, if so open a port with serial and add serial to serialPorts
+	 * If serial is null add null to serialPorts.
+	 * 
+	 * And to this for every serialConnection
+	 * 
 	 * Index 0 is the keypad
 	 * Index 1 is the rfid
 	 * Index 2 is the dispenser
@@ -70,7 +79,7 @@ public class ComPortSetup{
 		
 		availablePorts();
 		
-		serial = setup(115200, "Do you want to skip setup for the rfid(y/n)", 1);
+		serial = setup(9600, "Do you want to skip setup for the rfid(y/n)", 1);
 		
 		if (serial != null) {
 			serial.openPort();
@@ -173,7 +182,7 @@ public class ComPortSetup{
 	}
 
 	/**
-	 * selects comport to use
+	 * Selects comport to use
 	 * 
 	 * @return String
 	 */
@@ -194,7 +203,7 @@ public class ComPortSetup{
 	}
 	
 	/**
-	 * gets all portnames
+	 * Gets all portnames
 	 * 
 	 * @return ArrayList<String> of portnames
 	 */
@@ -213,7 +222,17 @@ public class ComPortSetup{
 		return array;
 	}
 	
-	
+	/**
+	 * Put config[0] with baudrate 115200 as a serial connection and add serial
+	 * and do this for config[1] - config[2] with baud rate 9600
+	 * 
+	 * If config[3] is not null add a serial connection with config[3] and baudrate 9600
+	 * execute openPort with that serialConnection
+	 * and add the serialConnection to serial.
+	 * if config[3] is null add null to serial
+	 * 
+	 * @return ArrayList<SerialConnection> serial
+	 */
 	public ArrayList<SerialConnection> getPorts() {
 		
 		ArrayList<SerialConnection> serial = new ArrayList<SerialConnection>();
@@ -226,13 +245,11 @@ public class ComPortSetup{
 		b.openPort();
 		serial.add(b);
 		
-		if(!config[2].contains("null")) {
-			var c = new SerialConnection(config[2], 9600);
-			c.openPort();
-			serial.add(c);
-		}else {
-			serial.add(null);
-		}
+		
+		var c = new SerialConnection(config[2], 9600);
+		c.openPort();
+		serial.add(c);
+		
 		
 		if(!config[3].contains("null")) {
 			var d = new SerialConnection(config[3], 9600);

@@ -12,13 +12,16 @@ public class CalculateBanknotes {
 
 
 	/**
+	 * calculates amount of banknotes available
 	 * 
 	 * @param totaal
 	 * @param option
-	 * @return
+	 * @param bankNotes_10
+	 * @param bankNotes_20
+	 * @param bankNotes_50
+	 * @return The banknotes amount
 	 */
 	public int[] calculateBanknotesTotaal(int totaal, int option, int bankNotes_10, int bankNotes_20, int bankNotes_50) {
-		// TODO Auto-generated method stub;
 		totaal10 = bankNotes_10;
 		totaal20 = bankNotes_20;
 		totaal50 = bankNotes_50;
@@ -78,12 +81,15 @@ public class CalculateBanknotes {
 	
 	/**
 	 * 
+	 * Calculates how many banknotes needed if you want mostly banknotes of 50
+	 * 
 	 * @param array
 	 * @param limiet1
 	 * @param limiet2
 	 * @param limiet3
 	 * @return
 	 */
+
 	private int[] mostlyBankNotes50(int array[], int limiet1, int limiet2, int limiet3) {
 		rest = totaal - limiet3 * 50;
 		array[2] = limiet3;
@@ -144,12 +150,13 @@ public class CalculateBanknotes {
 	}
 	
 	/**
+	 * Calculates how many banknotes needed if you want mostly banknotes of 20
 	 * 
 	 * @param array
 	 * @param limiet1
 	 * @param limiet2
 	 * @param limiet3
-	 * @return
+	 * @return The banknotes amount
 	 */
 	private  int[] mostlyBankNotes20(int array[], int limiet1, int limiet2, int limiet3) {
 		rest = totaal - limiet2 * 20;
@@ -169,7 +176,7 @@ public class CalculateBanknotes {
 
 				switch (rest) {
 				
-				case 10: // have at least [1,0,0] or [0,0,4] 
+				case 10:
 					if(limiet1 > 0) {
 						array[0] += 1;
 					}else if(totaal50 >= 6) {
@@ -178,7 +185,7 @@ public class CalculateBanknotes {
 					}
 					rest -= 10;
 					break;
-				case 20:// have at least [2,0,0] or [0,6,0] or [0,0,2]
+				case 20:
 					
 					if(limiet1 >= 2) {
 						array[0] += 2;
@@ -193,7 +200,7 @@ public class CalculateBanknotes {
 					
 					break;
 
-				case 30:// have at least 
+				case 30: 
 					if (totaal20 >= 6 && limiet1 >= 1) {
 						array[1] += 1;
 						array[0] += 1;
@@ -222,7 +229,6 @@ public class CalculateBanknotes {
 					rest -= 40;
 					break;
 				default:
-					// code block
 				}
 			}
 		} else {
@@ -275,7 +281,6 @@ public class CalculateBanknotes {
 						newRest -= 40;
 						break;
 					default:
-						// code block
 					}
 				}
 			}
@@ -288,12 +293,12 @@ public class CalculateBanknotes {
 	}
 	
 	/**
-	 * 
+	 * Calculates how many banknotes needed if you want mostly banknotes of 10
 	 * @param array
 	 * @param limiet1
 	 * @param limiet2
 	 * @param limiet3
-	 * @return
+	 * @return The banknotes amount
 	 */
 	private int[] mostlyBankNotes10(int array[], int limiet1, int limiet2, int limiet3) {
 		rest = totaal - limiet1 * 10;
@@ -361,7 +366,6 @@ public class CalculateBanknotes {
 					break;
 
 				default:
-					// code block
 				}
 			}
 
@@ -408,7 +412,6 @@ public class CalculateBanknotes {
 					newRest -= 40;
 					break;
 				default:
-					// code block
 				}
 			}
 
@@ -420,11 +423,11 @@ public class CalculateBanknotes {
 	}
 
 	/**
-	 * 
+	 * Returns the biggest number 
 	 * @param a
 	 * @param b
 	 * @param c
-	 * @return
+	 * @return The biggest number
 	 */
 	private static int biggestNumber(int a, int b, int c) {
 		if (a > b && a > c) {
