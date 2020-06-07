@@ -55,7 +55,6 @@ public class Painter {
 		keypadSwitchScreenListener.start();
 		//this.f.setAlwaysOnTop (true);
 	
-		
 		switchPane(ImgBackgrounds.FW1_1);
 	}
 		
