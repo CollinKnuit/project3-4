@@ -19,7 +19,7 @@ public class Moneydispenser {
 	
 	/**
 	 * Updates the now new money count
-	 * @param money
+	 * @param int money
 	 * @return true if successful 
 	 */
 	public boolean updateBanknotes_10(int money) {
@@ -35,7 +35,7 @@ public class Moneydispenser {
 	
 	/**
 	 * Updates the now new money count
-	 * @param money
+	 * @param int money
 	 * @return true if successful 
 	 */
 	public boolean updateBanknotes_20(int money) {
@@ -51,7 +51,7 @@ public class Moneydispenser {
 	
 	/**
 	 * Updates the now new money count
-	 * @param money
+	 * @param int money
 	 * @return true if successful 
 	 */
 	public boolean updateBanknotes_50(int money) {
@@ -64,6 +64,20 @@ public class Moneydispenser {
 		
 		return true;
 	}
+	
+/**
+ * If all banknotes types are above 5, Show available options 1,4
+ * 		And if amount of money is greater than 20, show also option 1
+ * 		Or if amount of money is greater than 50, show also option 3
+ * 
+ * option 1 is true when you have more than 4 banknotes of 10 and more than 3 banknotes of 50
+ * option 2 is true when you have more than 1 or equals 1 banknotes of 10 and more than 4 banknotes of 20 and more than 2 banknotes of 50
+ * option 3 is true when you have more than 1 or equals 1 banknotes of 10 and more than 1 banknotes of 20 and more than 4 banknotes of 50
+ * option 3 is also true when you have more than 4 banknotes of 10 and more than 4 banknotes of 20 and more than 1 banknotes of 50
+ * option 4 is true when all other options are true too. 
+ * @param money
+ * @return
+ */
 	
 	public boolean[] availableOptions(int money) {
 		boolean[] availableOptions = {false,false,false,false};
@@ -113,6 +127,10 @@ public class Moneydispenser {
 		return availableOptions;
 	}
 	
+/**
+ * Updates the config
+ * @throws IOException
+ */
 	public void updateConfig() throws IOException {
 		config.updateFile();
 	}
