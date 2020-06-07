@@ -226,13 +226,11 @@ public class ComPortSetup{
 		b.openPort();
 		serial.add(b);
 		
-		if(!config[2].contains("null")) {
-			var c = new SerialConnection(config[2], 9600);
-			c.openPort();
-			serial.add(c);
-		}else {
-			serial.add(null);
-		}
+		
+		var c = new SerialConnection(config[2], 9600);
+		c.openPort();
+		serial.add(c);
+		
 		
 		if(!config[3].contains("null")) {
 			var d = new SerialConnection(config[3], 9600);

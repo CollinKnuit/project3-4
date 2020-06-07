@@ -235,6 +235,38 @@ public class Painter {
 		this.f.add(p);
 		f.repaint();
 	}
+	
+
+	/**
+	 * Check which screen is active. If it is the screen where you can type in an amount or the login screen 
+	 * set the error message with the value of the parameter visible
+	 * 
+	 * @param visible
+	 * @param currentScreen
+	 */
+	public synchronized void setErrorMsgVisible(boolean visible, ImgBackgrounds currentScreen, int attempts_wrong, boolean exceededPinLimit) {
+		
+		switch (currentScreen) {
+			case FL1_1:
+				
+				this.errorMsgLogin.setText("Pincode incorrect probeer opnieuw nog " + (3-attempts_wrong) + " pogingen over.");
+				break;
+				
+			case FV1_1:
+				if(exceededPinLimit) {
+					this.errorMsgAmount.setText("Kies alstublieft een bedrag tussen de 0 en de 250 ");
+				} else {
+					this.errorMsgAmount.setText("Het bedrag is niet deelbaar door 10.");
+				}
+				
+				break;
+		default:
+				this.errorMsgAmount.setText("Dit kan niet u heeft niet zoveel geld.");
+				break;
+		}
+		
+		this.errorMsgLogin.setVisible(visible);
+	}
 
 	public synchronized ImgBackgrounds getScreen() {
 		return currrentScreen;
@@ -276,38 +308,6 @@ public class Painter {
 	
 	public Acount getAcount() {
 		return acount;
-	}
-	
-	/**
-	 * Check which screen is active. If it is the screen where you can type in an amount or the login screen 
-	 * set the error message with the value of the parameter visible
-	 * 
-	 * @param visible
-	 * @param currentScreen
-	 */
-	public synchronized void setErrorMsgVisible(boolean visible, ImgBackgrounds currentScreen, int attempts_wrong, boolean exceededPinLimit) {
-		
-		switch (currentScreen) {
-			case FL1_1:
-				
-				this.errorMsgLogin.setText("Pincode incorrect probeer opnieuw nog " + (3-attempts_wrong) + " pogingen over.");
-				this.errorMsgLogin.setVisible(visible);
-				break;
-				
-			case FV1_1:
-				if(exceededPinLimit) {
-					this.errorMsgAmount.setText("Kies alstublieft een bedrag tussen de 0 en de 250 ");
-				} else {
-					this.errorMsgAmount.setText("Het bedrag is niet deelbaar door 10.");
-				}
-				
-				this.errorMsgAmount.setVisible(visible);
-				break;
-		default:
-				this.errorMsgAmount.setText("Dit kan niet u heeft niet zoveel geld.");
-				this.errorMsgAmount.setVisible(visible);
-				break;
-		}
 	}
 
 }

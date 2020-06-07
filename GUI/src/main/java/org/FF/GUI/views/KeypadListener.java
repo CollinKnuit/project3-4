@@ -25,7 +25,7 @@ public class KeypadListener extends Thread{
     private ImgBackgrounds imgSelectorS;
     private ImgBackgrounds imgSelectorH;
 	private ImgBackgrounds imgSelectorG;
-	protected AtomicBoolean exit = new AtomicBoolean(false);
+	private AtomicBoolean exit = new AtomicBoolean(false);
 	private Painter painter;
 	private SerialConnection serialConnectionKeypad;
 	private SerialConnection serialConnectionBonprinter;
