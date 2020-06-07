@@ -25,7 +25,6 @@ void setup() {
 }
 
 void loop() {
-  // if there's any serial available, read it:
   if (Serial.available() > 29) {
     Serial.readBytes(ar, 30);
     bedrag = "";
@@ -47,12 +46,7 @@ void loop() {
     for (i = 11; i < 30; i++) {
       date += ar[i];
     }
-
-    Serial.println(date);
-    Serial.println(rekeningNummer);
-    Serial.println(transactieNummer);
-    Serial.println(bedrag);
-
+    
     printer.justify('C');
     printer.setSize('L');
     printer.println(F("Flasche Flocken"));
