@@ -18,14 +18,14 @@ public class ComPortSetup{
 	
 	
 	/**
-	 * if there is nothing or less than 2 items in PortNames exit and return null
-	 * if there are no ports available exit and return null
+	 * If there is nothing or less than 2 items in PortNames exit and return null.
+	 * If there are no ports available exit and return null.
 	 * 
-	 * if the user does not want to skip a setup of a serialConnection execute setup 
-	 * and check if serial is not null if so open a port with serial and add serial to serialPorts
-	 * if serial is null add null to serialPorts
+	 * If the user does not want to skip a setup of a serialConnection execute setup. 
+	 * And check if serial is not null, if so open a port with serial and add serial to serialPorts
+	 * If serial is null add null to serialPorts.
 	 * 
-	 * and to this for every serialConnection
+	 * And to this for every serialConnection
 	 * 
 	 * Index 0 is the keypad
 	 * Index 1 is the rfid
@@ -182,7 +182,7 @@ public class ComPortSetup{
 	}
 
 	/**
-	 * selects comport to use
+	 * Selects comport to use
 	 * 
 	 * @return String
 	 */
@@ -203,7 +203,7 @@ public class ComPortSetup{
 	}
 	
 	/**
-	 * gets all portnames
+	 * Gets all portnames
 	 * 
 	 * @return ArrayList<String> of portnames
 	 */
@@ -223,12 +223,12 @@ public class ComPortSetup{
 	}
 	
 	/**
-	 * put config[0] with baudrate 115200 as a serial connection and add serial
-	 * and do this for config[1] - config[2] with baud rate serialConnection
+	 * Put config[0] with baudrate 115200 as a serial connection and add serial
+	 * and do this for config[1] - config[2] with baud rate 9600
 	 * 
-	 * if config[3] is not null add a serial connection with config[3] and baudrate 9600. 
+	 * If config[3] is not null add a serial connection with config[3] and baudrate 9600
 	 * execute openPort with that serialConnection
-	 * and add the serialConnection to serial
+	 * and add the serialConnection to serial.
 	 * if config[3] is null add null to serial
 	 * 
 	 * @return ArrayList<SerialConnection> serial

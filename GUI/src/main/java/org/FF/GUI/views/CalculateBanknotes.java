@@ -19,7 +19,7 @@ public class CalculateBanknotes {
 	 * @param bankNotes_10
 	 * @param bankNotes_20
 	 * @param bankNotes_50
-	 * @return
+	 * @return The banknotes amount
 	 */
 	public int[] calculateBanknotesTotaal(int totaal, int option, int bankNotes_10, int bankNotes_20, int bankNotes_50) {
 		totaal10 = bankNotes_10;
@@ -156,7 +156,7 @@ public class CalculateBanknotes {
 	 * @param limiet1
 	 * @param limiet2
 	 * @param limiet3
-	 * @return
+	 * @return The banknotes amount
 	 */
 	private  int[] mostlyBankNotes20(int array[], int limiet1, int limiet2, int limiet3) {
 		rest = totaal - limiet2 * 20;
@@ -298,9 +298,8 @@ public class CalculateBanknotes {
 	 * @param limiet1
 	 * @param limiet2
 	 * @param limiet3
-	 * @return
+	 * @return The banknotes amount
 	 */
-
 	private int[] mostlyBankNotes10(int array[], int limiet1, int limiet2, int limiet3) {
 		rest = totaal - limiet1 * 10;
 		array[0] = limiet1;
@@ -424,13 +423,12 @@ public class CalculateBanknotes {
 	}
 
 	/**
-	 * 
+	 * Returns the biggest number 
 	 * @param a
 	 * @param b
 	 * @param c
-	 * @return
+	 * @return The biggest number
 	 */
-
 	private static int biggestNumber(int a, int b, int c) {
 		if (a > b && a > c) {
 			return 10;
